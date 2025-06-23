@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Tile, { type TileInfo, type TileProps } from './Tile';
 import styled from 'styled-components';
 import { nanoid } from 'nanoid';
+import { reverse, rot270, rot90 } from './gridutilities';
 
 type Slot = TileInfo | undefined;
 type Direction = 'up' | 'down' | 'left' | 'right';
@@ -13,30 +14,6 @@ const GridView = styled.div`
     width: 500px;
     height: 500px;
 `
-
-function transpose(matrix: any[][]) {
-    const ret: any[][] = Array(matrix[0].length).fill(undefined).map(() => Array(matrix.length).fill(undefined));
-
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[0].length; j++) {
-            ret[j][i] = matrix[i][j];
-        }
-    }
-
-    return ret;
-}
-
-function reverse(matrix: any[][]) {
-    return matrix.map((row) => [...row].reverse())
-}
-
-function rot90(matrix: any[][]) {
-    return reverse(transpose(matrix));
-}
-
-function rot270(matrix: any[][]) {
-    return transpose(reverse(matrix));
-}
 
 function transform(grid: Slot[][], direction: Direction) {
     switch (direction) {
