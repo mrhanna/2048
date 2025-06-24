@@ -42,10 +42,10 @@ export default function Grid() {
         for (let col = 0; col < GRID_SIZE; col++) {
             const cell = grid[row][col]
             if (cell) {
-                tiles.push(<Tile key={cell.tile.id} $position={[row, col]} {...cell.tile} />);
+                tiles.push(<Tile key={cell.tile.$id} $position={[row, col]} {...cell.tile} />);
 
                 if (cell.merged) {
-                    // tiles.push(<Tile key={cell.merged.id} $position={[row, col]} {...cell.merged} $exiting />);
+                    // tiles.push(<Tile key={cell.merged.$id} $position={[row, col]} {...cell.merged} $exiting />);
                 }
             }
         }

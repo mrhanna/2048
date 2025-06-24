@@ -30,7 +30,7 @@ export function shift(direction: Direction) {
 
 function spawnTile() {
     return {
-        id: nanoid(),
+        $id: nanoid(),
         exponent: Math.random() < 0.9 ? 1: 2,
     };
 }
@@ -113,7 +113,7 @@ function moveCells(grid: Slot[][], direction: Direction, nextTile: SeededTilePro
 
     // Spawn a new tile in an empty slot
     const spawnSlot = emptyCellPositions[Math.floor(nextTile.positionSeed * emptyCellPositions.length)];
-    shiftedGrid[spawnSlot[0]][spawnSlot[1]] = { tile: { id: nextTile.id, exponent: nextTile.exponent } }
+    shiftedGrid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: nextTile.$id, exponent: nextTile.exponent } }
 
     return undoTransform(shiftedGrid, direction);
 }

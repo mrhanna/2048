@@ -1,7 +1,7 @@
 import styled, {css, keyframes} from 'styled-components';
 
 export interface UnpositionedTileProps {
-    id: string,
+    $id: string,
     exponent: number,
 }
 
@@ -33,6 +33,12 @@ const fadeIn = keyframes`
 	}
 `
 
+// slight hack to avoid replaying entrance animation
+const fadeInDiv = styled.div`
+    opacity: 1;
+    animation: ${fadeIn} .25s;
+`;
+
 const TileWrapper = styled.div<TileProps>`
     position: absolute;
     width: 25%;
@@ -40,9 +46,6 @@ const TileWrapper = styled.div<TileProps>`
     padding: 10px;
     box-sizing: border-box;
     z-index: 0;
-
-    opacity: 1;
-    animation: ${fadeIn} .25s;
 
     ${({$position}) => css`
         left: ${25 * $position[1]}%;
@@ -67,7 +70,7 @@ const TileView = styled.div<TileProps>`
 
 export default function Tile(props: TileProps) {   
     return (
-        <TileWrapper {...props}>
+        <TileWrapper className={fadeInDiv.styledComponentId} {...props}>
             <TileView {...props}>{2 ** props.exponent}</TileView>
         </TileWrapper>
     );
