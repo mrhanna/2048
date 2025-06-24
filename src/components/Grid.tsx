@@ -16,6 +16,7 @@ const GridView = styled.div`
     height: 500px;
     background-color:rgb(102, 82, 59);
     border-radius: 10px;
+    padding: 10px;
 `
 
 export interface GridProps {
@@ -79,7 +80,9 @@ export default function Grid({ grid }: GridProps) {
 
     return (
         <GridView {...swipeHandlers}>
-            {tiles.map((props) => <Tile key={props.$id} {...props} />)}
+            <div style={{position: 'relative', width: '100%', height: '100%'}}>
+                {tiles.map((props) => <Tile key={props.$id} {...props} />)}
+            </div>
         </GridView>
     )
 }

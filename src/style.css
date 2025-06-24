@@ -1,6 +1,7 @@
-#root {
+html {
     font-size: 24pt;
     font-family: 'Lato', sans-serif;
+    background-color: rgb(247, 241, 227);
 }
 
 @keyframes fadeIn {
