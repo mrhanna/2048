@@ -9,13 +9,14 @@ type Slot = {
 } | undefined;
 
 export type Grid = Slot[][];
+export interface Score {
+    current: number,
+    best: number,
+}
 
 export interface GameState {
     grid: Grid,
-    score: {
-        current: number,
-        best: number,
-    }
+    score: Score
 }
 
 interface SeededTileProps extends UnpositionedTileProps {

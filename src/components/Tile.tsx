@@ -51,7 +51,11 @@ const TileView = styled.div<TileProps>`
     justify-content: center;
     align-items: center;
 
+    font-weight:bold;
+
     transition: color .3s, background-color .3s;
+
+    border-radius: 10px;
 
     ${({exponent}) => css`
         background-color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg };
