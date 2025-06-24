@@ -1,8 +1,11 @@
-import { useEffect, useReducer } from 'react';
-import Tile from './Tile';
+import { useEffect } from 'react';
+import Tile, { type TileProps } from './Tile';
 import styled from 'styled-components';
-import { gridReducer, initGrid, shift, type Direction } from './gridReducer';
+import { shift, type Direction } from './gameReducer';
 import { useSwipeable } from 'react-swipeable';
+
+import type { Grid } from './gameReducer';
+import { useGameDispatch } from './GameContext';
 
 const GRID_SIZE = 4;
 
@@ -12,10 +15,13 @@ const GridView = styled.div`
     height: 500px;
 `
 
-export default function Grid() {
-    const [grid, dispatch] = useReducer(gridReducer, GRID_SIZE, initGrid);
+export interface GridProps {
+    grid: Grid, 
+}
 
-    const tiles = [];
+export default function Grid({ grid }: GridProps) {
+    const dispatch = useGameDispatch();
+    const tiles: TileProps[] = [];
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => { dispatch(shift('left')); console.log('swiped') },
@@ -52,18 +58,25 @@ export default function Grid() {
         for (let col = 0; col < GRID_SIZE; col++) {
             const cell = grid[row][col]
             if (cell) {
-                tiles.push(<Tile key={cell.tile.$id} $position={[row, col]} {...cell.tile} />);
+                tiles.push({...cell.tile, $position: [row, col]});
 
                 if (cell.merged) {
-                    // tiles.push(<Tile key={cell.merged.$id} $position={[row, col]} {...cell.merged} $exiting />);
+                    tiles.push({...cell.merged, $position: [row, col], $exiting: true });
                 }
             }
         }
     }
 
+    // Sorting the tiles array helps prevents 
+    tiles.sort((a, b) => {
+        if (a.$id > b.$id) return 1;
+        if (a.$id < b.$id) return -1;
+        return 0;
+    });
+
     return (
         <GridView {...swipeHandlers}>
-            {...tiles}
+            {tiles.map((props) => <Tile key={props.$id} {...props} />)}
         </GridView>
     )
 }

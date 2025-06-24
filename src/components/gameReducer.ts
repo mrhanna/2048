@@ -8,6 +8,16 @@ type Slot = {
     merged?: UnpositionedTileProps,
 } | undefined;
 
+export type Grid = Slot[][];
+
+export interface GameState {
+    grid: Grid,
+    score: {
+        current: number,
+        best: number,
+    }
+}
+
 interface SeededTileProps extends UnpositionedTileProps {
     positionSeed: number,
 }
@@ -35,7 +45,7 @@ function spawnTile() {
     };
 }
 
-function transform(grid: Slot[][], direction: Direction) {
+function transform(grid: Grid, direction: Direction) {
     switch (direction) {
         case 'left':
             return [...grid];
@@ -48,7 +58,7 @@ function transform(grid: Slot[][], direction: Direction) {
     }
 }
 
-function undoTransform(grid: Slot[][], direction: Direction) {
+function undoTransform(grid: Grid, direction: Direction) {
     switch (direction) {
         case 'left':
             return [...grid];
@@ -64,12 +74,13 @@ function undoTransform(grid: Slot[][], direction: Direction) {
 // Calculates grid state after a play action is performed.
 // Returns both the new grid state as well as a list of discarded cells for animation purposes.
 // Returns false if nothing changes (i.e. everything is blocked)
-function moveCells(grid: Slot[][], direction: Direction, nextTile: SeededTileProps): Slot[][] {
+function moveCells(state: GameState, direction: Direction, nextTile: SeededTileProps): GameState {
     // rather than implement separate logic for each direction, just rotate the grid
-    const rows = transform(grid, direction)
+    const rows = transform(state.grid, direction)
 
     const emptyCellPositions: [number, number][] = [];
     let changed = false;
+    let scoreDelta = 0;
 
     // Go row by row. Logically, everything in arrays shifts left here
     const shiftedGrid = rows.map((row: Slot[], rowIndex) => {
@@ -86,6 +97,8 @@ function moveCells(grid: Slot[][], direction: Direction, nextTile: SeededTilePro
                     changed = true;
                     // increase the exp value of the last unmerged cell
                     ret[lastUnmergedIndex]!.tile.exponent++;
+                    // increase the score delta
+                    scoreDelta += 2 ** ret[lastUnmergedIndex]!.tile.exponent;
                     // put this cell in the merge field of the newly merged cell (for animation purposes)
                     ret[lastUnmergedIndex]!.merged = {...cell};
                     // there is no longer a "last unmerged index"
@@ -109,21 +122,28 @@ function moveCells(grid: Slot[][], direction: Direction, nextTile: SeededTilePro
         return ret;
     });
 
-    if (!changed) return grid;
+    if (!changed) return state;
 
     // Spawn a new tile in an empty slot
     const spawnSlot = emptyCellPositions[Math.floor(nextTile.positionSeed * emptyCellPositions.length)];
     shiftedGrid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: nextTile.$id, exponent: nextTile.exponent } }
 
-    return undoTransform(shiftedGrid, direction);
+    return {
+        score: {
+            current: state.score.current + scoreDelta,
+            best: Math.max(state.score.best, state.score.current + scoreDelta),
+        },
+        grid: undoTransform(shiftedGrid, direction)
+    };
 }
 
 const randomNum = (below: number) => Math.floor(Math.random() * below);
 
-export function initGrid(gridSize: number) {
-    const initialGrid: Slot[][] = Array(gridSize).fill(undefined).map(() => Array(gridSize).fill(undefined));
+export function initGameState(gridSize: number) {
+    const initialGrid: Grid = Array(gridSize).fill(undefined).map(() => Array(gridSize).fill(undefined));
     const a = randomNum(gridSize);
     const b = randomNum(gridSize);
+
     let c = randomNum(gridSize);
     let d = randomNum(gridSize);
 
@@ -135,10 +155,16 @@ export function initGrid(gridSize: number) {
     initialGrid[a][b] = { tile: spawnTile() };
     initialGrid[c][d] = { tile: spawnTile() };
 
-    return initialGrid;
+    return {
+        score: {
+            current: 0,
+            best: 0, //todo
+        },
+        grid: initialGrid,
+    }
 }
 
-export function gridReducer(state: Slot[][], action: ShiftAction) {
+export function gameReducer(state: GameState, action: ShiftAction) {
     if (action.type === 'shift') {
         return moveCells(state, action.payload.direction, action.payload.nextTile);
     }
