@@ -1,13 +1,13 @@
 import styled, {css, keyframes} from 'styled-components';
 
-export interface TileInfo {
+export interface UnpositionedTileProps {
     id: string,
     exponent: number,
 }
 
-export interface TileProps extends TileInfo {
-    position: [number, number], // [row, column]
-    $under?: 0 | 1
+export interface TileProps extends UnpositionedTileProps {
+    $position: [number, number], // [row, column]
+    exiting?: boolean,
 }
 
 interface TileColor {
@@ -44,9 +44,9 @@ const TileWrapper = styled.div<TileProps>`
     opacity: 1;
     animation: ${fadeIn} .25s;
 
-    ${({position}) => css`
-        left: ${25 * position[1]}%;
-        top: ${25 * position[0]}%;
+    ${({$position}) => css`
+        left: ${25 * $position[1]}%;
+        top: ${25 * $position[0]}%;
     `}
 
     transition: all .25s;
@@ -57,7 +57,7 @@ const TileView = styled.div<TileProps>`
     height: 100%;
     font-size: 24pt;
     text-align: center;
-    z-index: ${({$under}) => $under ? '1' : '2'};
+    z-index: ${({exiting}) => exiting ? '1' : '2'};
 
     ${({exponent}) => css`
         background-color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg };
