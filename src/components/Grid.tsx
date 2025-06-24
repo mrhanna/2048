@@ -41,16 +41,16 @@ function undoTransform(grid: Slot[][], direction: Direction) {
     }
 }
 
-function unrotatePosition([x, y]: [number, number], direction: Direction): [number, number] {
+function unrotatePosition([row, col]: [number, number], direction: Direction): [number, number] {
     switch (direction) {
         case 'left':
-            return [x, y];
+            return [row, col];
         case 'right':
-            return [y, x];
+            return [row, GRID_SIZE - col - 1];
         case 'down':
-            return [GRID_SIZE - y - 1, x];
+            return [GRID_SIZE - col - 1, row];
         case 'up':
-            return [y, GRID_SIZE - x - 1];
+            return [col, GRID_SIZE - row - 1];
     }
 }
 
@@ -162,19 +162,19 @@ export default function Grid() {
         };
     }, [grid, setGrid, exiting, setExiting])
 
-    for (let x = 0; x < GRID_SIZE; x++) {
-        for (let y = 0; y < GRID_SIZE; y++) {
-            const cell = grid[x][y]
+    for (let row = 0; row < GRID_SIZE; row++) {
+        for (let col = 0; col < GRID_SIZE; col++) {
+            const cell = grid[row][col]
             if (cell) {
-                tiles.push(<Tile key={cell.id} position={[y, x]} {...cell} />);
+                tiles.push(<Tile key={cell.id} position={[row, col]} {...cell} />);
             }
         }
     }
 
     return (
         <GridView ref={myRef}>
-            {... tiles}
-            {... exiting.map((props) => <Tile {...props} $under={1} />)}
+            {...tiles}
+            {...exiting.map((props) => <Tile {...props} $under={1} />)}
         </GridView>
     )
 }

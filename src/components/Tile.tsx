@@ -6,7 +6,7 @@ export interface TileInfo {
 }
 
 export interface TileProps extends TileInfo {
-    position: [number, number],
+    position: [number, number], // [row, column]
     $under?: 0 | 1
 }
 
@@ -45,8 +45,8 @@ const TileWrapper = styled.div<TileProps>`
     animation: ${fadeIn} .25s;
 
     ${({position}) => css`
-        left: ${25 * position[0]}%;
-        top: ${25 * position[1]}%;
+        left: ${25 * position[1]}%;
+        top: ${25 * position[0]}%;
     `}
 
     transition: all .25s;
