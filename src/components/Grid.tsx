@@ -58,7 +58,7 @@ export default function Grid({ grid }: GridProps) {
         for (let col = 0; col < GRID_SIZE; col++) {
             const cell = grid[row][col]
             if (cell) {
-                tiles.push({...cell.tile, $position: [row, col]});
+                tiles.push({...cell.tile, $position: [row, col], merged: !!cell.merged});
 
                 if (cell.merged) {
                     tiles.push({...cell.merged, $position: [row, col], $exiting: true });

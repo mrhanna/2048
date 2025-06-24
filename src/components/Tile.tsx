@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import styled, {css} from 'styled-components';
 import '../style.css';
 
@@ -10,6 +9,7 @@ export interface UnpositionedTileProps {
 export interface TileProps extends UnpositionedTileProps {
     $position: [number, number], // [row, column]
     $exiting?: boolean,
+    merged?: boolean,
 }
 
 interface TileColor {
@@ -33,12 +33,11 @@ const TileWrapper = styled.div<TileProps>`
     padding: 10px;
     box-sizing: border-box;
 
-    ${({$position}) => css`
+    ${({$position, $exiting}) => css`
         left: ${25 * $position[1]}%;
         top: ${25 * $position[0]}%;
+        transition: all .2s ${ $exiting ? '' : 'cubic-bezier(.25,.1,.25,1.25)'};
     `}
-
-    transition: all .25s;
 `;
 
 const TileView = styled.div<TileProps>`
@@ -52,22 +51,18 @@ const TileView = styled.div<TileProps>`
     justify-content: center;
     align-items: center;
 
-    transition: color .25s, background-color .25s;
+    transition: color .3s, background-color .3s;
 
-    ${({exponent, $exiting}) => css`
-        background-color: ${ tileColors[Math.min(exponent - 1 + ($exiting ? 1 : 0), tileColors.length - 1)].bg };
-        color: ${ tileColors[Math.min(exponent - 1 + ($exiting ? 1 : 0), tileColors.length - 1)].fg };
+    ${({exponent}) => css`
+        background-color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg };
+        color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].fg };
     `}
 `;
 
 export default function Tile(props: TileProps) {   
-    useEffect(() => {
-        console.log(`${props.$id} mounted`);
-    }, []);
-
     return (
         <TileWrapper className={'fade-in'} {...props}>
-            <TileView {...props}>{2 ** props.exponent}</TileView>
+            <TileView className={!!props.merged ? 'merged' : ''} {...props}>{2 ** props.exponent}</TileView>
         </TileWrapper>
     );
 }
