@@ -2,6 +2,7 @@ import { useEffect, useReducer } from 'react';
 import Tile from './Tile';
 import styled from 'styled-components';
 import { gridReducer, initGrid, shift, type Direction } from './gridReducer';
+import { useSwipeable } from 'react-swipeable';
 
 const GRID_SIZE = 4;
 
@@ -15,6 +16,15 @@ export default function Grid() {
     const [grid, dispatch] = useReducer(gridReducer, GRID_SIZE, initGrid);
 
     const tiles = [];
+
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => { dispatch(shift('left')); console.log('swiped') },
+        onSwipedRight: () => { dispatch(shift('right')) },
+        onSwipedDown: () => { dispatch(shift('down')) },
+        onSwipedUp: () => { dispatch(shift('up')) },
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+    })
 
     useEffect(() => {
         const keymap = {
@@ -52,7 +62,7 @@ export default function Grid() {
     }
 
     return (
-        <GridView>
+        <GridView {...swipeHandlers}>
             {...tiles}
         </GridView>
     )
