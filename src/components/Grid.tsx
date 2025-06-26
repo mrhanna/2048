@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import Tile, { type TileProps } from './Tile';
 import styled from 'styled-components';
-import { shift, type Direction } from './gameReducer';
+import { shift } from './gameActions';
+import type { Direction } from './gridLogic';
 import { useSwipeable } from 'react-swipeable';
 
-import type { Grid } from './gameReducer';
+import type { GridState } from './gameReducer';
 import { useGameDispatch } from './GameContext';
 
 const GRID_SIZE = 4;
@@ -20,10 +21,10 @@ const GridView = styled.div`
 `
 
 export interface GridProps {
-    grid: Grid, 
+    grid: GridState, 
 }
 
-export default function Grid({ grid }: GridProps) {
+export default function GridState({ grid }: GridProps) {
     const dispatch = useGameDispatch();
     const tiles: TileProps[] = [];
 

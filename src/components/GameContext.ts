@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { ShiftAction } from "./gameReducer";
+import type { ShiftAction } from "./gameActions";
 
 export const GameContext = createContext<React.Dispatch<ShiftAction> | null>(null);
 

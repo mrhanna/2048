@@ -1,5 +1,5 @@
 import { GameContext } from "./components/GameContext";
-import { gameReducer, initGameState } from "./components/gameReducer";
+import { gameReducer, initializeGameState } from "./components/gameReducer";
 import Grid from "./components/Grid";
 import { useReducer } from "react";
 import ScoreDisplay from "./components/ScoreDisplay";
@@ -10,7 +10,7 @@ const AppWrapper = styled.div`
 `;
 
 function App() {
-  const [state, dispatch] = useReducer(gameReducer, 4, initGameState)
+  const [state, dispatch] = useReducer(gameReducer, 4, initializeGameState)
 
   return (
     <GameContext.Provider value={dispatch}>
