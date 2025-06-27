@@ -1,4 +1,5 @@
-import { type GameAction, type NewGameAction, type ShiftAction } from "./gameActions";
+import type { Action } from "../../app/rootReducer";
+import { type NewGameAction, type ShiftAction } from "./gameActions";
 import { calculateShift, spawnTile } from "./gridLogic";
 import type { UnpositionedTileProps } from "./Tile";
 
@@ -56,7 +57,7 @@ export function initializeGameState() {
     return initializeGrid();
 }
 
-export function gameReducer(state: GameState, action: GameAction) {
+export function gameReducer(state: GameState, action: Action) {
     switch (action.type) {
         case 'shift':
             // Type assertion to ShiftAction

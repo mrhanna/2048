@@ -6,7 +6,7 @@ import type { Direction } from './gridLogic';
 import { useSwipeable } from 'react-swipeable';
 
 import type { GridState } from './gameReducer';
-import { useGameDispatch } from './GameContext';
+import { useAppDispatch } from '../../app/AppContext';
 
 const GRID_SIZE = 4;
 
@@ -25,7 +25,7 @@ export interface GridProps {
 }
 
 export default function GridState({ grid }: GridProps) {
-    const dispatch = useGameDispatch();
+    const dispatch = useAppDispatch();
     const tiles: TileProps[] = [];
 
     const swipeHandlers = useSwipeable({

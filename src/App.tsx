@@ -1,26 +1,26 @@
 import styled from "styled-components";
-import { gameReducer, initializeGameState } from "./features/game/gameReducer";
 import { useReducer } from "react";
-import { GameContext } from "./features/game/GameContext";
 import ScoreDisplay from "./features/game/ScoreDisplay";
 import Grid from "./features/game/Grid";
 import MenuBar from "./features/ui/MenuBar";
+import { AppContext } from "./app/AppContext";
+import rootReducer, { initializeState } from "./app/rootReducer";
 
 const AppWrapper = styled.div`
   text-align: center;
 `;
 
 function App() {
-  const [state, dispatch] = useReducer(gameReducer, 4, initializeGameState)
+  const [state, dispatch] = useReducer(rootReducer, null, initializeState)
 
   return (
-    <GameContext.Provider value={dispatch}>
+    <AppContext.Provider value={dispatch}>
       <AppWrapper>
-        <ScoreDisplay {...state.score} />
-        <Grid grid={state.grid} />
+        <ScoreDisplay {...state.game.score} />
+        <Grid grid={state.game.grid} />
         <MenuBar />
       </AppWrapper>
-    </GameContext.Provider>
+    </AppContext.Provider>
   )
 }
 
