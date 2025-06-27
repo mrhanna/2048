@@ -8,7 +8,9 @@ import rootReducer, { initializeState } from "./app/rootReducer";
 import Modal from "./features/ui/Modal";
 
 const AppWrapper = styled.div`
-  text-align: center;
+  width: 100%;
+  max-width: 60vh;
+  margin: 0 auto;
 `;
 
 function App() {

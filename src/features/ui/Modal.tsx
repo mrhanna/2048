@@ -91,7 +91,7 @@ const DialogButton = styled.button`
     transition: outline .1s;
 
     &:hover {
-        outline: 5px solid #eee;
+        outline: 5px solid #333;
     }
 
     &.primary {

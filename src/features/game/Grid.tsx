@@ -13,8 +13,8 @@ const GRID_SIZE = 4;
 const GridView = styled.div`
     position: relative;
     display: inline-block;
-    width: 60vh;
-    height: 60vh;
+    aspect-ratio: 1;
+    width: 100%;
     background-color:rgb(102, 82, 59);
     border-radius: 10px;
     padding: 10px;

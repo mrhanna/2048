@@ -4,6 +4,10 @@ html {
     background-color: rgb(247, 241, 227);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

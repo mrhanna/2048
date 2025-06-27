@@ -12,7 +12,6 @@ const ScoreViewWrapper = styled.div`
     background-color:rgb(102, 82, 59);
     color: #eee;
     border-radius: 10px;
-    margin: 10px;
     padding: 10px;
     width: 150px;
 `
@@ -25,6 +24,8 @@ const ScoreLabel = styled.div`
 const ScoreDisplayWrapper = styled.div`
     display: flex;
     justify-content: center;
+    gap: 1em;
+    padding: 1em 0;
 `
 
 function ScoreView(props: ScoreProps) {

@@ -5,6 +5,32 @@ import { openModal } from "./uiActions";
 
 const MenuBarWrapper = styled.div`
     display: flex;
+    padding: 1em 0;
+    justify-content: center;
+`
+
+const MenuButton = styled.button`
+    display: block;
+    padding: .5em;
+    font-size: inherit;
+    border-radius: 10px;
+    transition: outline .1s;
+
+    &:hover {
+        outline: 5px solid #333;
+    }
+
+    &.primary {
+        background-color: rgb(102, 82, 59);
+        color: #eee;
+        border: none;
+    }
+
+    &.secondary {
+        background: none;
+        border: 2px solid rgb(102, 82, 59);
+        color: rgb(102, 82, 59);
+    }
 `
 
 export default function MenuBar() {
@@ -25,7 +51,7 @@ export default function MenuBar() {
 
     return (
         <MenuBarWrapper>
-            <button onClick={handleClick}>New Game</button>
+            <MenuButton className="primary" onClick={handleClick}>New Game</MenuButton>
         </MenuBarWrapper>
     );
 }

@@ -1,9 +1,9 @@
 import type { Action } from "../../app/rootReducer";
-import type { ModalProps } from "./Modal";
+import type { ModalContent } from "./Modal";
 import type { OpenModalAction } from "./uiActions";
 
 export interface UIState {
-    modal: ModalProps | null,
+    modal: ModalContent | null,
 }
 
 export function initializeUIState() {
