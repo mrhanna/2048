@@ -5,6 +5,7 @@ import Grid from "./features/game/Grid";
 import MenuBar from "./features/ui/MenuBar";
 import { AppContext } from "./app/AppContext";
 import rootReducer, { initializeState } from "./app/rootReducer";
+import Modal from "./features/ui/Modal";
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -15,6 +16,9 @@ function App() {
 
   return (
     <AppContext.Provider value={dispatch}>
+      {state.ui.modal &&
+        <Modal {...state.ui.modal} />
+      }
       <AppWrapper>
         <ScoreDisplay {...state.game.score} />
         <Grid grid={state.game.grid} />

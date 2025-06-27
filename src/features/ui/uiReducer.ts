@@ -15,6 +15,7 @@ export function initializeUIState() {
 export default function uiReducer(state: UIState, action: Action) {
     switch (action.type) {
         case 'openModal':
+            console.log('open modal')
             return {
                 ...state,
                 modal: (action as OpenModalAction).payload,
