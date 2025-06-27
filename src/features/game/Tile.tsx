@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components';
-import '../style.css';
+import '../../style.css';
 
 export interface UnpositionedTileProps {
     $id: string,

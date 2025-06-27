@@ -43,12 +43,12 @@ export function initializeGrid(state?: GameState, gridSize: number = state?.grid
     newGrid[c][d] = { tile: spawnTile() };
 
     return {
+        ...state,
         score: {
             current: 0,
             best: state?.score?.best ?? 0,
         },
         grid: newGrid,
-        ...state,
     }
 }
 
@@ -58,15 +58,14 @@ export function initializeGameState() {
 
 export function gameReducer(state: GameState, action: GameAction) {
     switch (action.type) {
-        case 'shift': {
+        case 'shift':
             // Type assertion to ShiftAction
             const { direction, nextTile } = (action as ShiftAction).payload;
             return calculateShift(state, direction, nextTile);
-        }
-        case 'newGame': {
+        case 'newGame':
             const { gridSize } = (action as NewGameAction).payload;
+            console.log('new game action')
             return initializeGrid(state, gridSize);
-        }
     }
 
     return state;

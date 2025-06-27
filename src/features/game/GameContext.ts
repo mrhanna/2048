@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import type { ShiftAction } from "./gameActions";
+import type { GameAction } from "./gameActions";
 
-export const GameContext = createContext<React.Dispatch<ShiftAction> | null>(null);
+export const GameContext = createContext<React.Dispatch<GameAction> | null>(null);
 
 export function useGameDispatch() {
     const dispatch = useContext(GameContext);
