@@ -19,4 +19,14 @@ export function shift(direction: Direction) {
     }
 }
 
+export type NewGameAction = ReturnType<typeof newGame>
+export function newGame(gridSize?: number) {
+    return {
+        type: 'newGame',
+        payload: {
+            gridSize: gridSize
+        }
+    };
+}
 
+export type GameAction = ShiftAction | NewGameAction;

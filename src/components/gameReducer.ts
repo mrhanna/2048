@@ -1,4 +1,4 @@
-import { type ShiftAction } from "./gameActions";
+import { type GameAction, type NewGameAction, type ShiftAction } from "./gameActions";
 import { calculateShift, spawnTile } from "./gridLogic";
 import type { UnpositionedTileProps } from "./Tile";
 
@@ -56,9 +56,17 @@ export function initializeGameState() {
     return initializeGrid();
 }
 
-export function gameReducer(state: GameState, action: ShiftAction) {
-    if (action.type === 'shift') {
-        return calculateShift(state, action.payload.direction, action.payload.nextTile);
+export function gameReducer(state: GameState, action: GameAction) {
+    switch (action.type) {
+        case 'shift': {
+            // Type assertion to ShiftAction
+            const { direction, nextTile } = (action as ShiftAction).payload;
+            return calculateShift(state, direction, nextTile);
+        }
+        case 'newGame': {
+            const { gridSize } = (action as NewGameAction).payload;
+            return initializeGrid(state, gridSize);
+        }
     }
 
     return state;
