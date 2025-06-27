@@ -2,6 +2,47 @@ import styled, { keyframes } from "styled-components";
 import type { Action } from "../../app/rootReducer";
 import { useAppDispatch } from "../../app/AppContext";
 import { dismissModal } from "./uiActions";
+import { useEffect, useRef, useState } from "react";
+
+const slideIn = keyframes`
+    from {
+        transform: translateY(30%) scale(50%);
+    }
+
+    to {
+        transform: none;
+    }
+`
+
+const slideOut = keyframes`
+    from {
+        transform: none;
+    }
+
+    to {
+        transform: translateY(30%) scale(50%);
+    }    
+`
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+`
+
+const fadeOut = keyframes`
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+`
 
 const Overlay = styled.div`
     position: fixed;
@@ -17,17 +58,11 @@ const Overlay = styled.div`
     justify-content: center;
 
     background: rgba(0, 0, 0, .7);
-`
 
-const fadeSlideIn = keyframes`
-    from {
-        opacity: 0;
-        transform: translateY(30%) scale(50%);
-    }
+    animation: ${fadeIn} .3s ease;
 
-    to {
-        opacity: 1;
-        transform: none;
+    &.exiting {
+        animation: ${fadeOut} .2s ease;
     }
 `
 
@@ -39,7 +74,11 @@ const Dialog = styled.dialog`
     z-index: 1001;
     border: none;
     text-align: center;
-    animation: ${fadeSlideIn} .3s cubic-bezier(.25,.1,.25,1.5);
+    animation: ${slideIn} .3s cubic-bezier(.25,.1,.25,1.5);
+
+    .exiting & {
+        animation: ${slideOut} .2s ease-in;
+    }
 `
 
 const DialogButton = styled.button`
@@ -73,11 +112,15 @@ export interface DialogOption {
     action?: Action,
 }
 
-export interface ModalProps {
+export interface ModalContent {
     title?: string;
     message?: string;
     confirm?: DialogOption,
     dismiss?: DialogOption,
+}
+
+interface ModalProps {
+    content: ModalContent | null,
 }
 
 function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
@@ -91,21 +134,42 @@ function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
 
 export default function Modal(props: ModalProps) {
     const dispatch = useAppDispatch();
+    
+    const [shouldDisplay, setShouldDisplay] = useState(!!props.content);
+    const lastContent = useRef(props.content);
 
-    return (
-        <Overlay>
-            <Dialog open>
-                {props.title && <h2>{props.title}</h2>}
-                {props.message && <p>{props.message}</p>}
-                {props.confirm &&
-                    <DialogButton className="primary" onClick={makeCallback(dispatch, props.confirm.action)}>{props.confirm.text}</DialogButton>
-                }
-                {props.dismiss ?
-                    <DialogButton className="secondary" onClick={makeCallback(dispatch, props.dismiss.action)}>{props.dismiss.text}</DialogButton>
-                    :
-                    <DialogButton className="secondary" onClick={makeCallback(dispatch)}>Cancel</DialogButton>
-                }
-            </Dialog>
-        </Overlay>
-    )
+    useEffect(() => {
+        if (props.content) {
+            setShouldDisplay(true);
+            lastContent.current = {...props.content};
+        } else if (shouldDisplay) {
+            const timeout = setTimeout(() => setShouldDisplay(false), 180);
+            return () => {
+                clearTimeout(timeout);
+            }
+        }
+    }, [props.content, shouldDisplay]);
+
+    const content = {...(props.content || lastContent.current)}
+
+    if (shouldDisplay) {
+        return (
+            <Overlay className={!props.content? 'exiting' : undefined} >
+                <Dialog open>
+                    {content.title && <h2>{content.title}</h2>}
+                    {content.message && <p>{content.message}</p>}
+                    {content.confirm &&
+                        <DialogButton className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
+                    }
+                    {content.dismiss ?
+                        <DialogButton className="secondary" onClick={makeCallback(dispatch, content.dismiss.action)}>{content.dismiss.text}</DialogButton>
+                        :
+                        <DialogButton className="secondary" onClick={makeCallback(dispatch)}>Cancel</DialogButton>
+                    }
+                </Dialog>
+            </Overlay>
+        )
+    }
+
+    return null;
 }

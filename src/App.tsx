@@ -16,9 +16,7 @@ function App() {
 
   return (
     <AppContext.Provider value={dispatch}>
-      {state.ui.modal &&
-        <Modal {...state.ui.modal} />
-      }
+      <Modal content={state.ui.modal} />
       <AppWrapper>
         <ScoreDisplay {...state.game.score} />
         <Grid grid={state.game.grid} />
