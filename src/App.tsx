@@ -22,7 +22,7 @@ function App() {
       <AppWrapper>
         <ScoreDisplay {...state.game.score} />
         <Grid grid={state.game.grid} />
-        <MenuBar />
+        <MenuBar isGameOver={state.game.gameOver} />
       </AppWrapper>
     </AppContext.Provider>
   )

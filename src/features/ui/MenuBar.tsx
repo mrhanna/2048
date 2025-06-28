@@ -33,25 +33,34 @@ const MenuButton = styled.button`
     }
 `
 
-export default function MenuBar() {
+interface MenuBarProps {
+    isGameOver?: boolean,
+}
+
+export default function MenuBar(
+    props: MenuBarProps = { isGameOver: false }
+) {
     const dispatch = useAppDispatch();
 
-    const handleClick = () => {
-        dispatch(openModal(
-            {
-                title: 'New Game',
-                message: 'All progress will be lost. Start a new game?',
-                confirm: {
-                    text: 'New Game',
-                    action: newGame(),
+    const handleNewGameClicked = props.isGameOver ?
+        () => { dispatch(newGame()) }
+        :
+        () => {
+            dispatch(openModal(
+                {
+                    title: 'New Game',
+                    message: 'All progress will be lost. Start a new game?',
+                    confirm: {
+                        text: 'New Game',
+                        action: newGame(),
+                    }
                 }
-            }
-        ));
-    }
+            ));
+        };
 
     return (
         <MenuBarWrapper>
-            <MenuButton className="primary" onClick={handleClick}>New Game</MenuButton>
+            <MenuButton className="primary" onClick={handleNewGameClicked}>New Game</MenuButton>
         </MenuBarWrapper>
     );
 }
