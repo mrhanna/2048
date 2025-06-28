@@ -11,6 +11,7 @@ const AppWrapper = styled.div`
   width: 100%;
   max-width: 60vh;
   margin: 0 auto;
+  text-align: center;
 `;
 
 function App() {
@@ -20,7 +21,14 @@ function App() {
     <AppContext.Provider value={dispatch}>
       <Modal content={state.ui.modal} />
       <AppWrapper>
-        <ScoreDisplay {...state.game.score} />
+        { state.game.gameOver ? 
+          <>
+            <h2>Game Over</h2>
+            <p>You scored { state.game.score.current }</p>
+          </>
+          :
+          <ScoreDisplay {...state.game.score} />
+        }
         <Grid grid={state.game.grid} />
         <MenuBar isGameOver={state.game.gameOver} />
       </AppWrapper>
