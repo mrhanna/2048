@@ -61,6 +61,25 @@ function undoTransform(grid: GridState, direction: Direction) {
     }
 }
 
+function isGridShiftable(grid: GridState) {
+    let isGridShiftable = false;
+
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+            const currentTile = grid[i][j]!.tile.exponent;
+            const tileToRight = grid[i][j+1]?.tile?.exponent;
+            const tileBelow = grid[i+1]?.[j]?.tile?.exponent;
+
+            if (currentTile === tileToRight || currentTile === tileBelow) {
+                isGridShiftable = true;
+                break;
+            }
+        }
+    }
+
+    return isGridShiftable;
+}
+
 // Calculates grid state after a play action is performed.
 // Returns both the new grid state as well as a list of discarded cells for animation purposes.
 // Returns false if nothing changes (i.e. everything is blocked)
@@ -118,7 +137,11 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
     const spawnSlot = emptyCellPositions[Math.floor(nextTile.positionSeed * emptyCellPositions.length)];
     shiftedGrid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: nextTile.$id, exponent: nextTile.exponent } }
 
+    // is grid full? if there was only one empty cell position, we just filled it.
+    let isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shiftedGrid));
+
     return {
+        gameOver: isGameOver,
         score: {
             current: state.score.current + scoreDelta,
             best: Math.max(state.score.best, state.score.current + scoreDelta),
