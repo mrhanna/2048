@@ -19,7 +19,9 @@ export interface Score {
 export interface GameState {
     grid: GridState,
     score: Score,
-    gameOver: boolean,
+    isGameOver: boolean,
+    exponentGoal: number,
+    highestExponentAchieved: number,
 }
 
 const randomNumber = (below: number) => Math.floor(Math.random() * below);
@@ -51,7 +53,9 @@ export function initializeGrid(state?: GameState, gridSize: number = state?.grid
             best: state?.score?.best ?? 0,
         },
         grid: newGrid,
-        gameOver: false,
+        isGameOver: false,
+        exponentGoal: 11,
+        highestExponentAchieved: 1,
     }
 }
 
@@ -62,7 +66,7 @@ export function initializeGameState() {
 export function gameReducer(state: GameState, action: Action) {
     switch (action.type) {
         case 'shift':
-            if (!state.gameOver) {
+            if (!state.isGameOver) {
                 const { direction, nextTile } = (action as ShiftAction).payload;
                 return calculateShift(state, direction, nextTile);
             }
@@ -71,6 +75,11 @@ export function gameReducer(state: GameState, action: Action) {
             const { gridSize } = (action as NewGameAction).payload;
             console.log('new game action')
             return initializeGrid(state, gridSize);
+        case 'incrementGoal':
+            return {
+                ...state,
+                exponentGoal: state.exponentGoal + 1,
+            }
     }
 
     return state;

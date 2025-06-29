@@ -90,6 +90,7 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
     const emptyCellPositions: [number, number][] = [];
     let changed = false;
     let scoreDelta = 0;
+    let { highestExponentAchieved } = state;
 
     // Go row by row. Logically, everything in arrays shifts left here
     const shiftedGrid = rows.map((row: Slot[], rowIndex) => {
@@ -108,6 +109,11 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
                     ret[lastUnmergedIndex]!.tile.exponent++;
                     // increase the score delta
                     scoreDelta += 2 ** ret[lastUnmergedIndex]!.tile.exponent;
+                    // note the highest exponent achieved
+                    highestExponentAchieved = Math.max(
+                        highestExponentAchieved,
+                        ret[lastUnmergedIndex]!.tile.exponent,
+                    );
                     // put this cell in the merge field of the newly merged cell (for animation purposes)
                     ret[lastUnmergedIndex]!.merged = {...cell};
                     // there is no longer a "last unmerged index"
@@ -141,12 +147,14 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
     let isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shiftedGrid));
 
     return {
-        gameOver: isGameOver,
+        ...state,
+        isGameOver: isGameOver,
         score: {
             current: state.score.current + scoreDelta,
             best: Math.max(state.score.best, state.score.current + scoreDelta),
         },
-        grid: undoTransform(shiftedGrid, direction)
+        grid: undoTransform(shiftedGrid, direction),
+        highestExponentAchieved,
     };
 }
 

@@ -29,4 +29,11 @@ export function newGame(gridSize?: number) {
     };
 }
 
-export type GameAction = ShiftAction | NewGameAction;
+export type IncrementGoalAction = ReturnType<typeof incrementGoal>
+export function incrementGoal() {
+    return {
+        type: 'incrementGoal',
+    };
+}
+
+export type GameAction = ShiftAction | NewGameAction | IncrementGoalAction;

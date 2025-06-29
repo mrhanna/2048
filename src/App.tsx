@@ -21,7 +21,7 @@ function App() {
     <AppContext.Provider value={dispatch}>
       <Modal content={state.ui.modal} />
       <AppWrapper>
-        { state.game.gameOver ? 
+        { state.game.isGameOver ? 
           <>
             <h2>Game Over</h2>
             <p>You scored { state.game.score.current }</p>
@@ -30,7 +30,7 @@ function App() {
           <ScoreDisplay {...state.game.score} />
         }
         <Grid grid={state.game.grid} />
-        <MenuBar isGameOver={state.game.gameOver} />
+        <MenuBar isGameOver={state.game.isGameOver} />
       </AppWrapper>
     </AppContext.Provider>
   )
