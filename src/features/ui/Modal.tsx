@@ -114,7 +114,7 @@ export interface DialogOption {
 
 export interface ModalContent {
     title?: string;
-    message?: string;
+    message?: string | React.ReactElement;
     confirm?: DialogOption,
     dismiss?: DialogOption,
 }
@@ -157,7 +157,12 @@ export default function Modal(props: ModalProps) {
             <Overlay className={!props.content? 'exiting' : undefined} >
                 <Dialog open>
                     {content.title && <h2>{content.title}</h2>}
-                    {content.message && <p>{content.message}</p>}
+                    {content.message && (
+                        typeof content.message === 'string' ?
+                        <p>{content.message}</p>
+                        :
+                        content.message
+                    )}
                     {content.confirm &&
                         <DialogButton className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
                     }
