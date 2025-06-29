@@ -6,6 +6,7 @@ import MenuBar from "./features/ui/MenuBar";
 import { AppContext } from "./app/AppContext";
 import rootReducer, { initializeState } from "./app/rootReducer";
 import Modal from "./features/ui/Modal";
+import useYouWin from "./features/ui/useYouWin";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -17,14 +18,16 @@ const AppWrapper = styled.div`
 function App() {
   const [state, dispatch] = useReducer(rootReducer, null, initializeState)
 
+  useYouWin(state.game, dispatch);
+
   return (
     <AppContext.Provider value={dispatch}>
       <Modal content={state.ui.modal} />
       <AppWrapper>
-        { state.game.isGameOver ? 
+        {state.game.isGameOver ?
           <>
             <h2>Game Over</h2>
-            <p>You scored { state.game.score.current }</p>
+            <p>You scored {state.game.score.current}</p>
           </>
           :
           <ScoreDisplay {...state.game.score} />
