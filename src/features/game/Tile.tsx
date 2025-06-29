@@ -18,19 +18,25 @@ interface TileColor {
 }
 
 const tileColors: TileColor[] = [
-    { bg: '#eee', fg: '#222' },
-    { bg: '#ccc', fg: '#222' },
-    { bg: '#d9ae61', fg: '#eee' },
-    { bg: '#c8963E', fg: '#eee' },
-    { bg: '#d1462f', fg: '#eee' },
-    { bg: '#573d1c', fg: '#eee' },
+    { bg: '#eee4da', fg: '#222' },
+    { bg: '#ede0c8', fg: '#222' },
+    { bg: '#f2b179', fg: '#fff' },
+    { bg: '#f59563', fg: '#fff' },
+    { bg: '#f67c5f', fg: '#fff' },
+    { bg: '#f65e3b', fg: '#fff' },
+    { bg: '#edcf72', fg: '#fff' },
+    { bg: '#edcc61', fg: '#fff' },
+    { bg: '#edc850', fg: '#fff' },
+    { bg: '#edc53f', fg: '#fff' },
+    { bg: '#edc22e', fg: '#fff' },
+    { bg: '#3c3a32', fg: '#fff' },
 ]
 
 const TileWrapper = styled.div<TileProps>`
     position: absolute;
     width: 25%;
     height: 25%;
-    padding: 10px;
+    padding: 2%;
     box-sizing: border-box;
 
     ${({$position, $exiting}) => css`
@@ -44,7 +50,7 @@ const TileView = styled.div<TileProps>`
     position: relative;
     width: 100%;
     height: 100%;
-    font-size: 32pt;
+    font-size: ${({exponent}) => `${8 * (1 / (Math.max(`${2 ** exponent}`.length, 2.5) / 2))}vh`};
     text-align: center;
     z-index: ${({$exiting}) => $exiting ? '1' : '2'};
     display: flex;

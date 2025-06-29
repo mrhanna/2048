@@ -17,7 +17,7 @@ const GridView = styled.div`
     width: 100%;
     background-color:rgb(102, 82, 59);
     border-radius: 10px;
-    padding: 10px;
+    padding: 2%;
 `
 
 export interface GridProps {
