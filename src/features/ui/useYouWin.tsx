@@ -12,6 +12,7 @@ const WinMessageTileWrapper = styled.div`
     aspect-ratio: 1;
     position: relative;
     margin: 1em auto;
+    container-type: size;
 `;
 
 export default function useYouWin(state: GameState, dispatch: React.ActionDispatch<[Action]>) {

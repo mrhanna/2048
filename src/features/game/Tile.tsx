@@ -37,6 +37,7 @@ const TileWrapper = styled.div<TileProps>`
     width: 25%;
     height: 25%;
     padding: 2%;
+    container-type: size;
     box-sizing: border-box;
     z-index: ${({$exiting}) => $exiting ? '1' : '2'};
 
@@ -51,7 +52,10 @@ export const TileView = styled.div<{exponent: number}>`
     position: relative;
     width: 100%;
     height: 100%;
-    font-size: ${({exponent}) => `${8 * (1 / (Math.max(`${2 ** exponent}`.length, 2.5) / 2))}vh`};
+
+    font-size: ${({exponent}) => `${(14 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}vh`};
+    font-size: ${({exponent}) => `${(100 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}cqh`};
+
     text-align: center;
     display: flex;
     justify-content: center;
