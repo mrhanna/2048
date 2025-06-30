@@ -73,7 +73,6 @@ export function gameReducer(state: GameState, action: Action) {
             return state;
         case 'newGame':
             const { gridSize } = (action as NewGameAction).payload;
-            console.log('new game action')
             return initializeGameState(state, gridSize);
         case 'incrementGoal':
             return {

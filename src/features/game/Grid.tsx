@@ -24,12 +24,12 @@ export interface GridProps {
     grid: GridState, 
 }
 
-export default function GridState({ grid }: GridProps) {
+export default function Grid({ grid }: GridProps) {
     const dispatch = useAppDispatch();
     const tiles: TileProps[] = [];
 
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: () => { dispatch(shift('left')); console.log('swiped') },
+        onSwipedLeft: () => { dispatch(shift('left')) },
         onSwipedRight: () => { dispatch(shift('right')) },
         onSwipedDown: () => { dispatch(shift('down')) },
         onSwipedUp: () => { dispatch(shift('up')) },
