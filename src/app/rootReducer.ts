@@ -12,6 +12,16 @@ export interface RootState {
 export type Action = GameAction | UIAction;
 
 export function initializeState() {
+    const saved = localStorage.getItem('2048state');
+
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            // fallback to new game
+        }
+    }
+
     return {
         game: initializeGameState(),
         ui: initializeUIState(),

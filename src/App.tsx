@@ -7,6 +7,7 @@ import { AppContext } from "./app/AppContext";
 import rootReducer, { initializeState } from "./app/rootReducer";
 import Modal from "./features/ui/Modal";
 import useYouWin from "./features/ui/useYouWin";
+import usePersistence from "./app/usePersistence";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -17,6 +18,7 @@ const AppWrapper = styled.div`
 
 function App() {
   const [state, dispatch] = useReducer(rootReducer, null, initializeState)
+  usePersistence('2048state', state, 300);
 
   useYouWin(state.game, dispatch);
 
