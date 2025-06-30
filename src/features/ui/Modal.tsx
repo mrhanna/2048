@@ -76,6 +76,9 @@ const Dialog = styled.dialog`
     text-align: center;
     animation: ${slideIn} .3s cubic-bezier(.25,.1,.25,1.5);
 
+    width: 100%;
+    max-width: 80vh;
+
     .exiting & {
         animation: ${slideOut} .2s ease-in;
     }
