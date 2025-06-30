@@ -30,7 +30,7 @@ const randomNumber = (below: number) => Math.floor(Math.random() * below);
 // if gridSize is given explicitly, overrides current grid size.
 // else if gridSize is not given, default to current grid size.
 // else if there is no current grid size, default to 4x4.
-export function initializeGrid(state?: GameState, gridSize: number = state?.grid?.length ?? 4) {
+function initializeGrid(state?: GridState, gridSize: number = state?.length ?? 4) {
     const newGrid: GridState = Array(gridSize).fill(undefined).map(() => Array(gridSize).fill(undefined));
     const a = randomNumber(gridSize);
     const b = randomNumber(gridSize);
@@ -46,21 +46,21 @@ export function initializeGrid(state?: GameState, gridSize: number = state?.grid
     newGrid[a][b] = { tile: spawnTile() };
     newGrid[c][d] = { tile: spawnTile() };
 
+    return newGrid;
+}
+
+export function initializeGameState(state?: GameState, gridSize?: number) {
     return {
         ...state,
         score: {
             current: 0,
             best: state?.score?.best ?? 0,
         },
-        grid: newGrid,
+        grid: initializeGrid(state?.grid, gridSize),
         isGameOver: false,
         exponentGoal: 11,
         highestExponentAchieved: 1,
     }
-}
-
-export function initializeGameState() {
-    return initializeGrid();
 }
 
 export function gameReducer(state: GameState, action: Action) {
@@ -74,7 +74,7 @@ export function gameReducer(state: GameState, action: Action) {
         case 'newGame':
             const { gridSize } = (action as NewGameAction).payload;
             console.log('new game action')
-            return initializeGrid(state, gridSize);
+            return initializeGameState(state, gridSize);
         case 'incrementGoal':
             return {
                 ...state,
