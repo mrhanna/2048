@@ -62,22 +62,24 @@ function undoTransform(grid: GridState, direction: Direction) {
 }
 
 function isGridShiftable(grid: GridState) {
-    let isGridShiftable = false;
-
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid.length; j++) {
-            const currentTile = grid[i][j]!.tile.exponent;
+            const currentTile = grid[i][j]?.tile?.exponent;
+
+            // cell is empty
+            if (!currentTile) return true;
+
             const tileToRight = grid[i][j + 1]?.tile?.exponent;
             const tileBelow = grid[i + 1]?.[j]?.tile?.exponent;
 
             if (currentTile === tileToRight || currentTile === tileBelow) {
-                isGridShiftable = true;
-                break;
+                // two cells can merge
+                return true;
             }
         }
     }
 
-    return isGridShiftable;
+    return false;
 }
 
 function unrotateCoordinates(
