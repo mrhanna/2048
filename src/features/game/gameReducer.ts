@@ -1,11 +1,11 @@
 import type { Action } from "../../app/rootReducer";
 import { type NewGameAction, type ShiftAction } from "./gameActions";
-import { calculateShift, spawnTile } from "./gridLogic";
+import { applyShiftAction, spawnTile } from "./gridLogic";
 import type { UnpositionedTileProps } from "./Tile";
 
 // tile - the actual slot contents. merged - an inactive tile from a previous state that merged with this one
 export type Slot = {
-    tile: UnpositionedTileProps, 
+    tile: UnpositionedTileProps,
     merged?: UnpositionedTileProps,
 } | undefined;
 
@@ -68,7 +68,7 @@ export function gameReducer(state: GameState, action: Action) {
         case 'shift':
             if (!state.isGameOver) {
                 const { direction, nextTile } = (action as ShiftAction).payload;
-                return calculateShift(state, direction, nextTile);
+                return applyShiftAction(state, direction, nextTile);
             }
             return state;
         case 'newGame':

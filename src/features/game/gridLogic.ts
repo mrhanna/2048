@@ -30,7 +30,7 @@ export function rot270<T>(matrix: T[][]): T[][] {
 export function spawnTile(): UnpositionedTileProps {
     return {
         $id: nanoid(),
-        exponent: Math.random() < 0.9 ? 1: 2,
+        exponent: Math.random() < 0.9 ? 1 : 2,
     };
 }
 
@@ -67,8 +67,8 @@ function isGridShiftable(grid: GridState) {
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid.length; j++) {
             const currentTile = grid[i][j]!.tile.exponent;
-            const tileToRight = grid[i][j+1]?.tile?.exponent;
-            const tileBelow = grid[i+1]?.[j]?.tile?.exponent;
+            const tileToRight = grid[i][j + 1]?.tile?.exponent;
+            const tileBelow = grid[i + 1]?.[j]?.tile?.exponent;
 
             if (currentTile === tileToRight || currentTile === tileBelow) {
                 isGridShiftable = true;
@@ -80,21 +80,42 @@ function isGridShiftable(grid: GridState) {
     return isGridShiftable;
 }
 
-// Calculates grid state after a play action is performed.
-// Returns both the new grid state as well as a list of discarded cells for animation purposes.
-// Returns false if nothing changes (i.e. everything is blocked)
-export function calculateShift(state: GameState, direction: Direction, nextTile: SeededTileProps): GameState {
+function unrotateCoordinates(
+    [r, c]: [number, number],
+    direction: Direction,
+    size: number
+): [number, number] {
+    switch (direction) {
+        case 'left': return [r, c];
+        case 'right': return [r, size - 1 - c];
+        case 'up': return [c, size - 1 - r];
+        case 'down': return [size - 1 - c, r];
+    }
+}
+
+type ShiftResult = {
+    grid: Slot[][],
+    changed: boolean,
+    scoreDelta: number,
+    highestMergedExponent: number,
+    emptyCellPositions: [number, number][],
+}
+
+export function simulateGridShift(
+    grid: GridState,
+    direction: Direction,
+): ShiftResult {
     // rather than implement separate logic for each direction, just rotate the grid
-    const rows = transform(state.grid, direction)
+    const rows = transform(grid, direction)
 
     const emptyCellPositions: [number, number][] = [];
     let changed = false;
     let scoreDelta = 0;
-    let { highestExponentAchieved } = state;
+    let highestMergedExponent = 0;
 
     // Go row by row. Logically, everything in arrays shifts left here
     const shiftedGrid = rows.map((row: Slot[], rowIndex) => {
-        const ret = Array<Slot>(row.length).fill(undefined);
+        const newRow = Array<Slot>(row.length).fill(undefined);
 
         let firstEmptyIndex = 0;
         let lastUnmergedIndex = -1; // -1 will indicate there is no unmerged cell so far
@@ -103,27 +124,27 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
             const cell = row[i]?.tile;
             if (cell) {
                 // first, check to see if the most recent unmerged cell is the same as this one
-                if (lastUnmergedIndex > -1 && ret[lastUnmergedIndex]!.tile.exponent === cell.exponent) {
+                if (lastUnmergedIndex > -1 && newRow[lastUnmergedIndex]!.tile.exponent === cell.exponent) {
                     changed = true;
                     // increase the exp value of the last unmerged cell
-                    ret[lastUnmergedIndex]!.tile.exponent++;
+                    newRow[lastUnmergedIndex]!.tile.exponent++;
                     // increase the score delta
-                    scoreDelta += 2 ** ret[lastUnmergedIndex]!.tile.exponent;
+                    scoreDelta += 2 ** newRow[lastUnmergedIndex]!.tile.exponent;
                     // note the highest exponent achieved
-                    highestExponentAchieved = Math.max(
-                        highestExponentAchieved,
-                        ret[lastUnmergedIndex]!.tile.exponent,
+                    highestMergedExponent = Math.max(
+                        highestMergedExponent,
+                        newRow[lastUnmergedIndex]!.tile.exponent,
                     );
                     // put this cell in the merge field of the newly merged cell (for animation purposes)
-                    ret[lastUnmergedIndex]!.merged = {...cell};
+                    newRow[lastUnmergedIndex]!.merged = { ...cell };
                     // there is no longer a "last unmerged index"
                     lastUnmergedIndex = -1;
                 }
-                
+
                 else {
                     if (firstEmptyIndex != i) changed = true;
                     lastUnmergedIndex = firstEmptyIndex;
-                    ret[firstEmptyIndex] = { tile: {...cell}};
+                    newRow[firstEmptyIndex] = { tile: { ...cell } };
                     firstEmptyIndex++;
                 }
             }
@@ -131,30 +152,66 @@ export function calculateShift(state: GameState, direction: Direction, nextTile:
 
         // any remaining empty cells are eligible for new tile spawn
         while (firstEmptyIndex < row.length) {
-            emptyCellPositions.push([rowIndex, firstEmptyIndex++]);
+            emptyCellPositions.push(
+                unrotateCoordinates(
+                    [rowIndex, firstEmptyIndex++],
+                    direction,
+                    row.length,
+                )
+            );
         }
 
-        return ret;
+        return newRow;
     });
+
+    return {
+        grid: undoTransform(shiftedGrid, direction),
+        changed,
+        scoreDelta,
+        highestMergedExponent,
+        emptyCellPositions,
+    }
+}
+
+function injectTileIntoGrid(
+    grid: GridState,
+    positions: [number, number][],
+    tile: SeededTileProps,
+): void {
+    const spawnSlot = positions[Math.floor(tile.positionSeed * positions.length)];
+    grid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: tile.$id, exponent: tile.exponent } }
+}
+
+export function applyShiftAction(
+    state: GameState,
+    direction: Direction,
+    nextTile: SeededTileProps,
+): GameState {
+    const {
+        grid: shifted,
+        changed,
+        scoreDelta,
+        highestMergedExponent,
+        emptyCellPositions
+    } = simulateGridShift(state.grid, direction);
 
     if (!changed) return state;
 
-    // Spawn a new tile in an empty slot
-    const spawnSlot = emptyCellPositions[Math.floor(nextTile.positionSeed * emptyCellPositions.length)];
-    shiftedGrid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: nextTile.$id, exponent: nextTile.exponent } }
+    // mutates shifted grid
+    injectTileIntoGrid(shifted, emptyCellPositions, nextTile);
 
     // is grid full? if there was only one empty cell position, we just filled it.
-    let isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shiftedGrid));
+    const isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shifted));
+    const newScore = state.score.current + scoreDelta;
 
     return {
         ...state,
-        isGameOver: isGameOver,
+        grid: shifted,
         score: {
-            current: state.score.current + scoreDelta,
-            best: Math.max(state.score.best, state.score.current + scoreDelta),
+            current: newScore,
+            best: Math.max(state.score.best, newScore),
         },
-        grid: undoTransform(shiftedGrid, direction),
-        highestExponentAchieved,
-    };
+        highestExponentAchieved: Math.max(state.highestExponentAchieved, highestMergedExponent),
+        isGameOver,
+    }
 }
-
