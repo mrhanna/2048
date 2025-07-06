@@ -23,7 +23,7 @@ function App() {
   useYouWin(state.game, dispatch);
 
   return (
-    <AppContext.Provider value={dispatch}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <Modal content={state.ui.modal} />
       <AppWrapper>
         {state.game.isGameOver ?
