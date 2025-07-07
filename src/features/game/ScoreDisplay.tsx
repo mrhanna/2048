@@ -37,11 +37,15 @@ function ScoreView(props: ScoreProps) {
     )
 }
 
-export default function ScoreDisplay({ current, best }: Score) {
+interface ScoreDisplayProps extends Score {
+    gridSize: number,
+}
+
+export default function ScoreDisplay({ current, best, gridSize }: ScoreDisplayProps) {
     return (
         <ScoreDisplayWrapper>
             <ScoreView label="Score" value={current} />
-            <ScoreView label="Best" value={best} />
+            <ScoreView label="Best" value={best[gridSize] ?? 0} />
         </ScoreDisplayWrapper>
     )
 }

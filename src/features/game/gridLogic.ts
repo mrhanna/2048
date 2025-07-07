@@ -206,14 +206,18 @@ export function applyShiftAction(
     const isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shifted));
     const newScore = state.score.current + scoreDelta;
 
-    return {
+    const nextState = {
         ...state,
         grid: shifted,
         score: {
+            ...state.score,
             current: newScore,
-            best: Math.max(state.score.best, newScore),
         },
         highestExponentAchieved: Math.max(state.highestExponentAchieved, highestMergedExponent),
         isGameOver,
     }
+
+    nextState.score.best[state.grid.length] = Math.max(state.score.best[state.grid.length], newScore);
+
+    return nextState;
 }

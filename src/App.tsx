@@ -32,7 +32,7 @@ function App() {
             <p>You scored {state.game.score.current}</p>
           </>
           :
-          <ScoreDisplay {...state.game.score} />
+          <ScoreDisplay gridSize={state.game.grid.length} {...state.game.score} />
         }
         <Grid grid={state.game.grid} />
         <MenuBar />

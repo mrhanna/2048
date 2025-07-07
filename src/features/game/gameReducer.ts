@@ -14,7 +14,7 @@ export type GridState = Slot[][];
 
 export interface Score {
     current: number,
-    best: number,
+    best: Record<number, number>,
 }
 
 export interface GameState {
@@ -51,17 +51,24 @@ function initializeGrid(state?: GridState, gridSize: number = state?.length ?? c
 }
 
 export function initializeGameState(state?: GameState, gridSize?: number) {
-    return {
+    const newState = {
         ...state,
         score: {
             current: 0,
-            best: state?.score?.best ?? 0,
+            best: state?.score?.best ?? {},
         },
         grid: initializeGrid(state?.grid, gridSize),
         isGameOver: false,
         exponentGoal: 11,
         highestExponentAchieved: 1,
     }
+
+    // if this grid size hasn't been played before, initialize the mode best to 0.
+    if (!newState.score.best[newState.grid.length]) {
+        newState.score.best[newState.grid.length] = 0;
+    }
+
+    return newState;
 }
 
 export function gameReducer(state: GameState, action: Action) {
