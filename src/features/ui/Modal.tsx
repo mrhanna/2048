@@ -62,7 +62,7 @@ const Overlay = styled.div`
     animation: ${fadeIn} .3s ease;
 
     &.exiting {
-        animation: ${fadeOut} .2s ease;
+        animation: ${fadeOut} .2s ease forwards;
     }
 `
 
@@ -80,7 +80,7 @@ const Dialog = styled.dialog`
     max-width: 80vh;
 
     .exiting & {
-        animation: ${slideOut} .2s ease-in;
+        animation: ${slideOut} .2s ease-in forwards;
     }
 `
 
@@ -137,34 +137,34 @@ function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
 
 export default function Modal(props: ModalProps) {
     const dispatch = useAppDispatch();
-    
+
     const [shouldDisplay, setShouldDisplay] = useState(!!props.content);
     const lastContent = useRef(props.content);
 
     useEffect(() => {
         if (props.content) {
             setShouldDisplay(true);
-            lastContent.current = {...props.content};
+            lastContent.current = { ...props.content };
         } else if (shouldDisplay) {
-            const timeout = setTimeout(() => setShouldDisplay(false), 180);
+            const timeout = setTimeout(() => setShouldDisplay(false), 200);
             return () => {
                 clearTimeout(timeout);
             }
         }
     }, [props.content, shouldDisplay]);
 
-    const content = {...(props.content || lastContent.current)}
+    const content = { ...(props.content || lastContent.current) }
 
     if (shouldDisplay) {
         return (
-            <Overlay className={!props.content? 'exiting' : undefined} >
+            <Overlay className={!props.content ? 'exiting' : undefined} >
                 <Dialog open>
                     {content.title && <h2>{content.title}</h2>}
                     {content.message && (
                         typeof content.message === 'string' ?
-                        <p>{content.message}</p>
-                        :
-                        content.message
+                            <p>{content.message}</p>
+                            :
+                            content.message
                     )}
                     {content.confirm &&
                         <DialogButton className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
