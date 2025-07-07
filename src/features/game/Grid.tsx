@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import type { GridState } from './gameReducer';
 import useShiftHandlers from './useShiftHandlers';
 
-const GRID_SIZE = 4;
-
 const GridView = styled.div`
     position: relative;
     display: inline-block;
@@ -20,12 +18,13 @@ export interface GridProps {
 }
 
 export default function Grid({ grid }: GridProps) {
+    const gridSize = grid.length;
     const tiles: TileProps[] = [];
 
     const handlers = useShiftHandlers(grid);
 
-    for (let row = 0; row < GRID_SIZE; row++) {
-        for (let col = 0; col < GRID_SIZE; col++) {
+    for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
             const cell = grid[row][col]
             if (cell) {
                 tiles.push({ ...cell.tile, $position: [row, col], merged: !!cell.merged });
