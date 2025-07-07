@@ -1,6 +1,6 @@
 import NumberFlow from "@number-flow/react";
-import styled from "styled-components";
-import type { Score } from "./gameReducer";
+import styled, { keyframes } from "styled-components";
+import { useAppState } from "../../app/AppContext";
 
 interface ScoreProps {
     label?: string,
@@ -22,10 +22,40 @@ const ScoreLabel = styled.div`
 `
 
 const ScoreDisplayWrapper = styled.div`
+    position: relative;
     display: flex;
     justify-content: center;
     gap: 1em;
     padding: 1em 0;
+`
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+`
+
+const GameOverDisplay = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgb(247, 241, 227);
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    animation: ${fadeIn} .6s;
+
+    & * {
+        margin: 0;
+    }
 `
 
 function ScoreView(props: ScoreProps) {
@@ -37,15 +67,23 @@ function ScoreView(props: ScoreProps) {
     )
 }
 
-interface ScoreDisplayProps extends Score {
-    gridSize: number,
-}
+export default function ScoreDisplay() {
+    const state = useAppState();
 
-export default function ScoreDisplay({ current, best, gridSize }: ScoreDisplayProps) {
+    const { current, best } = state.game.score;
+    const gridSize = state.game.grid.length;
+
     return (
         <ScoreDisplayWrapper>
             <ScoreView label="Score" value={current} />
             <ScoreView label="Best" value={best[gridSize] ?? 0} />
+
+            {state.game.isGameOver &&
+                <GameOverDisplay>
+                    <h2>Game Over</h2>
+                    <p>You scored {current}</p>
+                </GameOverDisplay>
+            }
         </ScoreDisplayWrapper>
-    )
+    );
 }

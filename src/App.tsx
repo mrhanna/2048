@@ -26,14 +26,7 @@ function App() {
     <AppContext.Provider value={{ state, dispatch }}>
       <Modal content={state.ui.modal} />
       <AppWrapper>
-        {state.game.isGameOver ?
-          <>
-            <h2>Game Over</h2>
-            <p>You scored {state.game.score.current}</p>
-          </>
-          :
-          <ScoreDisplay gridSize={state.game.grid.length} {...state.game.score} />
-        }
+        <ScoreDisplay />
         <Grid grid={state.game.grid} />
         <MenuBar />
       </AppWrapper>
