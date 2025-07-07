@@ -1,5 +1,6 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import '../../style.css';
+import { useAppState } from '../../app/AppContext';
 
 export interface UnpositionedTileProps {
     $id: string,
@@ -34,27 +35,23 @@ const tileColors: TileColor[] = [
 
 const TileWrapper = styled.div<TileProps>`
     position: absolute;
-    width: 25%;
-    height: 25%;
     padding: 2%;
     container-type: size;
     box-sizing: border-box;
-    z-index: ${({$exiting}) => $exiting ? '1' : '2'};
+    z-index: ${({ $exiting }) => $exiting ? '1' : '2'};
 
-    ${({$position, $exiting}) => css`
-        left: ${25 * $position[1]}%;
-        top: ${25 * $position[0]}%;
-        transition: all .2s ${ $exiting ? '' : 'cubic-bezier(.25,.1,.25,1.25)'};
+    ${({ $exiting }) => css`
+        transition: all .2s ${$exiting ? '' : 'cubic-bezier(.25,.1,.25,1.25)'};
     `}
 `;
 
-export const TileView = styled.div<{exponent: number}>`
+export const TileView = styled.div<{ exponent: number }>`
     position: relative;
     width: 100%;
     height: 100%;
 
-    font-size: ${({exponent}) => `${(14 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}vh`};
-    font-size: ${({exponent}) => `${(100 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}cqh`};
+    font-size: ${({ exponent }) => `${(14 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}vh`};
+    font-size: ${({ exponent }) => `${(100 * (1 / (0.5 * Math.max(`${2 ** exponent}`.length, 2) + 1))).toFixed(2)}cqh`};
 
     text-align: center;
     display: flex;
@@ -67,15 +64,24 @@ export const TileView = styled.div<{exponent: number}>`
 
     border-radius: 10px;
 
-    ${({exponent}) => css`
-        background-color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg };
-        color: ${ tileColors[Math.min(exponent - 1, tileColors.length - 1)].fg };
+    ${({ exponent }) => css`
+        background-color: ${tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg};
+        color: ${tileColors[Math.min(exponent - 1, tileColors.length - 1)].fg};
     `}
 `;
 
-export default function Tile(props: TileProps) {   
+export default function Tile(props: TileProps) {
+    const gridSize = useAppState().game.grid.length;
+
+    const positionStyle = {
+        width: `${100 / gridSize}%`,
+        height: `${100 / gridSize}%`,
+        left: `${100 * props.$position[1] / gridSize}%`,
+        top: `${100 * props.$position[0] / gridSize}%`,
+    }
+
     return (
-        <TileWrapper className={'fade-in'} {...props}>
+        <TileWrapper style={positionStyle} className={'fade-in'} {...props}>
             <TileView className={!!props.merged ? 'merged' : ''} exponent={props.exponent}>{2 ** props.exponent}</TileView>
         </TileWrapper>
     );
