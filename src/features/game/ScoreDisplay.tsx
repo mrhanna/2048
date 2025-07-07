@@ -37,7 +37,7 @@ function ScoreView(props: ScoreProps) {
     )
 }
 
-export default function ScoreDisplay({current, best}: Score) {
+export default function ScoreDisplay({ current, best }: Score) {
     return (
         <ScoreDisplayWrapper>
             <ScoreView label="Score" value={current} />
