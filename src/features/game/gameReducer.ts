@@ -2,6 +2,7 @@ import type { Action } from "../../app/rootReducer";
 import { type NewGameAction, type ShiftAction } from "./gameActions";
 import { applyShiftAction, spawnTile } from "./gridLogic";
 import type { UnpositionedTileProps } from "./Tile";
+import config from "../../app/config";
 
 // tile - the actual slot contents. merged - an inactive tile from a previous state that merged with this one
 export type Slot = {
@@ -30,7 +31,7 @@ const randomNumber = (below: number) => Math.floor(Math.random() * below);
 // if gridSize is given explicitly, overrides current grid size.
 // else if gridSize is not given, default to current grid size.
 // else if there is no current grid size, default to 4x4.
-function initializeGrid(state?: GridState, gridSize: number = state?.length ?? 4) {
+function initializeGrid(state?: GridState, gridSize: number = state?.length ?? config.defaultGridSize) {
     const newGrid: GridState = Array(gridSize).fill(undefined).map(() => Array(gridSize).fill(undefined));
     const a = randomNumber(gridSize);
     const b = randomNumber(gridSize);
@@ -73,6 +74,12 @@ export function gameReducer(state: GameState, action: Action) {
             return state;
         case 'newGame':
             const { gridSize } = (action as NewGameAction).payload;
+
+            // ignore action if attempt to change grid size is outside configured limits
+            if (gridSize && (gridSize < config.minGridSize || gridSize > config.maxGridSize)) {
+                return state;
+            }
+
             return initializeGameState(state, gridSize);
         case 'incrementGoal':
             return {
