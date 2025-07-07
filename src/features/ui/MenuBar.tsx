@@ -1,48 +1,22 @@
 import styled from "styled-components"
 import { newGame } from "../game/gameActions";
-import { useAppDispatch } from "../../app/AppContext";
+import { useAppDispatch, useAppState } from "../../app/AppContext";
 import { openModal } from "./uiActions";
+import MenuButton from "./MenuButton";
+import GridSizeSelector from "./GridSizeSelector";
 
 const MenuBarWrapper = styled.div`
     display: flex;
     padding: 1em 0;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 1em;
 `
 
-const MenuButton = styled.button`
-    display: block;
-    padding: .5em;
-    font-size: inherit;
-    border-radius: 10px;
-    transition: outline .1s;
-
-    &:hover {
-        outline: 5px solid #333;
-    }
-
-    &.primary {
-        background-color: rgb(102, 82, 59);
-        color: #eee;
-        border: none;
-    }
-
-    &.secondary {
-        background: none;
-        border: 2px solid rgb(102, 82, 59);
-        color: rgb(102, 82, 59);
-    }
-`
-
-interface MenuBarProps {
-    isGameOver?: boolean,
-}
-
-export default function MenuBar(
-    props: MenuBarProps = { isGameOver: false }
-) {
+export default function MenuBar() {
+    const state = useAppState();
     const dispatch = useAppDispatch();
 
-    const handleNewGameClicked = props.isGameOver ?
+    const handleNewGameClicked = state.game.isGameOver || state.game.score.current === 0 ?
         () => { dispatch(newGame()) }
         :
         () => {
@@ -60,7 +34,8 @@ export default function MenuBar(
 
     return (
         <MenuBarWrapper>
-            <MenuButton className="primary" onClick={handleNewGameClicked}>New Game</MenuButton>
+            <MenuButton className="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
+            <GridSizeSelector />
         </MenuBarWrapper>
     );
 }

@@ -35,7 +35,7 @@ function App() {
           <ScoreDisplay {...state.game.score} />
         }
         <Grid grid={state.game.grid} />
-        <MenuBar isGameOver={state.game.isGameOver} />
+        <MenuBar />
       </AppWrapper>
     </AppContext.Provider>
   )
