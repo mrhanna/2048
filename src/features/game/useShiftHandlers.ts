@@ -50,6 +50,9 @@ export default function useShiftHandlers(grid: GridState) {
         };
 
         const handleKeyPress = (event: KeyboardEvent) => {
+            // supress when inputs are focused
+            if (document.activeElement?.tagName === 'INPUT') return;
+
             const direction = keymap[event.code as keyof typeof keymap] as Direction | undefined;
             if (direction) {
                 handleShiftEventWithThrottle(direction);
