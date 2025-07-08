@@ -28,6 +28,7 @@ function App() {
             <AppWrapper>
                 <ScoreDisplay />
                 <Grid grid={state.game.grid} />
+                <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
                 <MenuBar />
             </AppWrapper>
         </AppContext.Provider>

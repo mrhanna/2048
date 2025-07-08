@@ -175,14 +175,43 @@ export function simulateGridShift(
     }
 }
 
+interface SpawnTile {
+    position: [number, number],
+    exponent: number,
+}
+
 function injectTileIntoGrid(
     grid: GridState,
     positions: [number, number][],
     tile: SeededTileProps,
-): void {
+): SpawnTile {
     const spawnSlot = positions[Math.floor(tile.positionSeed * positions.length)];
     grid[spawnSlot[0]][spawnSlot[1]] = { tile: { $id: tile.$id, exponent: tile.exponent } }
+
+    return {
+        position: [spawnSlot[0], spawnSlot[1]],
+        exponent: tile.exponent,
+    }
 }
+
+const verbose = (
+    direction: Direction,
+    grid: GridState,
+    newTile: SpawnTile,
+) => {
+    const directionLog = `Grid shifted ${direction}`;
+    const mergeLogs = grid.flatMap((row, rowIndex) => row.map((cell, columnIndex) => {
+        if (cell?.merged) {
+            return `Merged two ${2 ** cell.merged.exponent} tiles into a ${2 ** cell.tile.exponent} at row ${rowIndex + 1} column ${columnIndex + 1}`;
+        }
+
+        return undefined;
+    })).filter((value) => !!value);
+    const spawnLog = `A ${2 ** newTile.exponent} tile spawned at row ${newTile.position[0] + 1} column ${newTile.position[1] + 1}`;
+
+    return [directionLog, ...mergeLogs, spawnLog].join('. ');
+}
+
 
 export function applyShiftAction(
     state: GameState,
@@ -197,10 +226,15 @@ export function applyShiftAction(
         emptyCellPositions
     } = simulateGridShift(state.grid, direction);
 
-    if (!changed) return state;
+    if (!changed) {
+        return {
+            ...state,
+            verbose: `Grid cannot shift ${direction}`,
+        }
+    }
 
     // mutates shifted grid
-    injectTileIntoGrid(shifted, emptyCellPositions, nextTile);
+    const newTile = injectTileIntoGrid(shifted, emptyCellPositions, nextTile);
 
     // is grid full? if there was only one empty cell position, we just filled it.
     const isGameOver = !(emptyCellPositions.length > 1 || isGridShiftable(shifted));
@@ -215,6 +249,7 @@ export function applyShiftAction(
         },
         highestExponentAchieved: Math.max(state.highestExponentAchieved, highestMergedExponent),
         isGameOver,
+        verbose: verbose(direction, shifted, newTile),
     }
 
     nextState.score.best[state.grid.length] = Math.max(state.score.best[state.grid.length], newScore);

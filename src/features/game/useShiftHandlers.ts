@@ -23,12 +23,13 @@ export default function useShiftHandlers(grid: GridState) {
 
             if (changed) {
                 canShiftRef.current = false;
-                dispatch(shift(direction));
 
                 setTimeout(() => {
                     canShiftRef.current = true;
                 }, 150);
             }
+
+            dispatch(shift(direction));
         }
     }, [dispatch])
 

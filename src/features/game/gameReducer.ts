@@ -18,6 +18,7 @@ export interface Score {
 }
 
 export interface GameState {
+    verbose: string,
     grid: GridState,
     score: Score,
     isGameOver: boolean,
@@ -61,12 +62,15 @@ export function initializeGameState(state?: GameState, gridSize?: number) {
         isGameOver: false,
         exponentGoal: 11,
         highestExponentAchieved: 1,
+        verbose: '',
     }
 
     // if this grid size hasn't been played before, initialize the mode best to 0.
     if (!newState.score.best[newState.grid.length]) {
         newState.score.best[newState.grid.length] = 0;
     }
+
+    newState.verbose = `Started a new game on a ${newState.grid.length} by ${newState.grid.length} grid`;
 
     return newState;
 }
