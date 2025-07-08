@@ -3,6 +3,7 @@ import type { Action } from "../../app/rootReducer";
 import { useAppDispatch } from "../../app/AppContext";
 import { dismissModal } from "./uiActions";
 import { useEffect, useRef, useState } from "react";
+import useModalFocusTrap from "./useModalFocusTrap";
 
 const slideIn = keyframes`
     from {
@@ -153,12 +154,16 @@ export default function Modal(props: ModalProps) {
         }
     }, [props.content, shouldDisplay]);
 
+    const modalRef = useRef<HTMLDialogElement | null>(null);
+
+    useModalFocusTrap(modalRef, shouldDisplay, () => { dispatch(dismissModal()) });
+
     const content = { ...(props.content || lastContent.current) }
 
     if (shouldDisplay) {
         return (
             <Overlay className={!props.content ? 'exiting' : undefined} >
-                <Dialog open>
+                <Dialog ref={modalRef} open>
                     {content.title && <h2>{content.title}</h2>}
                     {content.message && (
                         typeof content.message === 'string' ?
@@ -167,12 +172,12 @@ export default function Modal(props: ModalProps) {
                             content.message
                     )}
                     {content.confirm &&
-                        <DialogButton className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
+                        <DialogButton autoFocus className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
                     }
                     {content.dismiss ?
-                        <DialogButton className="secondary" onClick={makeCallback(dispatch, content.dismiss.action)}>{content.dismiss.text}</DialogButton>
+                        <DialogButton autoFocus={!content.confirm && true} className="secondary" onClick={makeCallback(dispatch, content.dismiss.action)}>{content.dismiss.text}</DialogButton>
                         :
-                        <DialogButton className="secondary" onClick={makeCallback(dispatch)}>Cancel</DialogButton>
+                        <DialogButton autoFocus={!content.confirm && true} className="secondary" onClick={makeCallback(dispatch)}>Cancel</DialogButton>
                     }
                 </Dialog>
             </Overlay>
