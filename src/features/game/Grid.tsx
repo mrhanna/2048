@@ -2,6 +2,7 @@ import Tile, { type TileProps } from './Tile';
 import styled from 'styled-components';
 import type { GridState } from './gameReducer';
 import useShiftHandlers from './useShiftHandlers';
+import AccessibleGrid from './AccessibleGrid';
 
 const GridView = styled.div`
     position: relative;
@@ -44,10 +45,13 @@ export default function Grid({ grid }: GridProps) {
     });
 
     return (
-        <GridView {...handlers}>
-            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                {tiles.map((props) => <Tile key={props.$id} {...props} />)}
-            </div>
-        </GridView>
+        <>
+            <GridView {...handlers}>
+                <div aria-hidden="true" style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    {tiles.map((props) => <Tile key={props.$id} {...props} />)}
+                </div>
+            </GridView>
+            <AccessibleGrid grid={grid} />
+        </>
     )
 }
