@@ -3,7 +3,7 @@ import type { Action } from "../../app/rootReducer";
 import { useAppDispatch } from "../../app/AppContext";
 import { dismissModal } from "./uiActions";
 import { useEffect, useRef, useState } from "react";
-import useModalFocusTrap from "./useModalFocusTrap";
+import useModalFocusTrap from "./hooks/useModalFocusTrap";
 
 const slideIn = keyframes`
     from {

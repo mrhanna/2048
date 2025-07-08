@@ -6,7 +6,7 @@ import MenuBar from "./features/ui/MenuBar";
 import { AppContext } from "./app/AppContext";
 import rootReducer, { initializeState } from "./app/rootReducer";
 import Modal from "./features/ui/Modal";
-import useYouWin from "./features/ui/useYouWin";
+import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
 
 const AppWrapper = styled.div`

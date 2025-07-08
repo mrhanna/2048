@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import MenuButton from "./MenuButton";
 import { useAppDispatch, useAppState } from "../../app/AppContext";
 import styled from "styled-components";
-import useClickOutside from "./useClickOutside";
+import useClickOutside from "./hooks/useClickOutside";
 import config from "../../app/config";
 import { openModal } from "./uiActions";
 import { newGame } from "../game/gameActions";

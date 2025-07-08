@@ -1,10 +1,10 @@
-import type { GameState } from "../game/gameReducer";
+import type { GameState } from "../../game/gameReducer";
 import { useEffect } from "react";
-import { openModal } from "./uiActions";
-import { incrementGoal } from "../game/gameActions";
-import type { Action } from "../../app/rootReducer";
+import { openModal } from "../uiActions";
+import { incrementGoal } from "../../game/gameActions";
+import type { Action } from "../../../app/rootReducer";
 import styled from "styled-components";
-import { TileView } from "../game/Tile";
+import { TileView } from "../../game/Tile";
 
 const WinMessageTileWrapper = styled.div`
     display: block;
