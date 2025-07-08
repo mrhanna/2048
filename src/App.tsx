@@ -10,28 +10,28 @@ import useYouWin from "./features/ui/useYouWin";
 import usePersistence from "./app/usePersistence";
 
 const AppWrapper = styled.div`
-  width: 100%;
-  max-width: 60vh;
-  margin: 0 auto;
-  text-align: center;
+    width: 100%;
+    max-width: 60vh;
+    margin: 0 auto;
+    text-align: center;
 `;
 
 function App() {
-  const [state, dispatch] = useReducer(rootReducer, null, initializeState)
-  usePersistence('2048state', state, 300);
+    const [state, dispatch] = useReducer(rootReducer, null, initializeState)
+    usePersistence('2048state', state, 300);
 
-  useYouWin(state.game, dispatch);
+    useYouWin(state.game, dispatch);
 
-  return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <Modal content={state.ui.modal} />
-      <AppWrapper>
-        <ScoreDisplay />
-        <Grid grid={state.game.grid} />
-        <MenuBar />
-      </AppWrapper>
-    </AppContext.Provider>
-  )
+    return (
+        <AppContext.Provider value={{ state, dispatch }}>
+            <Modal content={state.ui.modal} />
+            <AppWrapper>
+                <ScoreDisplay />
+                <Grid grid={state.game.grid} />
+                <MenuBar />
+            </AppWrapper>
+        </AppContext.Provider>
+    )
 }
 
-export default App
+export default App;
