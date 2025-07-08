@@ -21,7 +21,7 @@ const ScoreLabel = styled.div`
     text-transform: uppercase;
 `
 
-const ScoreDisplayWrapper = styled.div`
+const ScoreDisplayWrapper = styled.section`
     position: relative;
     display: flex;
     justify-content: center;
@@ -74,12 +74,15 @@ export default function ScoreDisplay() {
     const gridSize = state.game.grid.length;
 
     return (
-        <ScoreDisplayWrapper>
+        <ScoreDisplayWrapper aria-label="Scoreboard" role="region">
             <ScoreView label="Score" value={current} />
             <ScoreView label="Best" value={best[gridSize] ?? 0} />
 
             {state.game.isGameOver &&
-                <GameOverDisplay>
+                <GameOverDisplay
+                    aria-label="Game over"
+                    role="alert"
+                >
                     <h2>Game Over</h2>
                     <p>You scored {current}</p>
                 </GameOverDisplay>

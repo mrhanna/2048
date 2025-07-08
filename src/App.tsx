@@ -9,7 +9,7 @@ import Modal from "./features/ui/Modal";
 import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
 
-const AppWrapper = styled.div`
+const AppWrapper = styled.main`
     width: 100%;
     max-width: 60vh;
     margin: 0 auto;

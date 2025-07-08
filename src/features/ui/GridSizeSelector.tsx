@@ -55,6 +55,7 @@ export default function GridSizeSelector() {
                     setLocalSliderValue(gridSize);
                 }}
                 className={isSliderDisplaying ? 'primary' : 'secondary'}
+                aria-label="Open grid size selector"
             >{formatGridSize(gridSize)}</MenuButton>
 
             {isSliderDisplaying &&
@@ -70,6 +71,7 @@ export default function GridSizeSelector() {
                             }}
                             list="sizes"
                             step={1}
+                            aria-label="Grid size selector slider"
                         />
                         <datalist id="sizes">
                             {Array.from({ length: config.maxGridSize - config.minGridSize + 1 }, (_, i) => i + config.minGridSize)
@@ -81,6 +83,7 @@ export default function GridSizeSelector() {
                         <button
                             disabled={localSliderValue === gridSize && true}
                             onClick={handleSetGridSize}
+                            aria-label="Confirm grid size setting"
                         >Set</button>
                     </div>
                 </SliderContainer>
