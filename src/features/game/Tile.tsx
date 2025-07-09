@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import '../../style.css';
-import { useAppState } from '../../app/AppContext';
 
 export interface UnpositionedTileProps {
     $id: string,
@@ -11,6 +10,7 @@ export interface TileProps extends UnpositionedTileProps {
     $position: [number, number], // [row, column]
     $exiting?: boolean,
     merged?: boolean,
+    gridSize: number,
 }
 
 interface TileColor {
@@ -76,7 +76,7 @@ export const TileView = styled.div<{ exponent: number }>`
 `;
 
 export default function Tile(props: TileProps) {
-    const gridSize = useAppState().game.grid.length;
+    const { gridSize } = props;
 
     const positionStyle = {
         width: `${100 / gridSize}%`,
