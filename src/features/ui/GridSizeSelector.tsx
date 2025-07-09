@@ -6,6 +6,8 @@ import useClickOutside from "./hooks/useClickOutside";
 import config from "../../app/config";
 import { openModal } from "./uiActions";
 import { newGame } from "../game/gameActions";
+import ExitWrapper from "./ExitWrapper";
+import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 
 const Wrapper = styled.div`
     position: relative;
@@ -20,6 +22,13 @@ const SliderContainer = styled.div`
     padding: .5em;
     right: 0;
     z-index: 100;
+    animation: ${slideIn} .1s ease-out, ${fadeIn} .1s ease-out;
+    transform-origin: bottom right;
+
+    &.exiting {
+        animation: ${slideOut} .1s ease-out, ${fadeOut} .1s ease-out;
+        animation-fill-mode: forwards;
+    }
 `
 
 const formatGridSize = (n: number) => `${n}\u00D7${n}`;
@@ -58,7 +67,12 @@ export default function GridSizeSelector() {
                 aria-label="Open grid size selector"
             >{formatGridSize(gridSize)}</MenuButton>
 
-            {isSliderDisplaying &&
+
+            <ExitWrapper
+                show={isSliderDisplaying}
+                exitAnimationTimeMilliseconds={200}
+                exitingClassName="exiting"
+            >
                 <SliderContainer>
                     <div>
                         <input
@@ -87,7 +101,7 @@ export default function GridSizeSelector() {
                         >Set</button>
                     </div>
                 </SliderContainer>
-            }
+            </ExitWrapper>
         </Wrapper>
     )
 }
