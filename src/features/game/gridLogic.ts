@@ -175,7 +175,7 @@ export function simulateGridShift(
     }
 }
 
-interface SpawnTile {
+export interface SpawnTile {
     position: [number, number],
     exponent: number,
 }
@@ -194,11 +194,11 @@ function injectTileIntoGrid(
     }
 }
 
-const verbose = (
+export function createAccessibleShiftAnnouncement(
     direction: Direction,
     grid: GridState,
     newTile: SpawnTile,
-) => {
+) {
     const directionLog = `Grid shifted ${direction}`;
     const mergeLogs = grid.flatMap((row, rowIndex) => row.map((cell, columnIndex) => {
         if (cell?.merged) {
@@ -211,7 +211,6 @@ const verbose = (
 
     return [directionLog, ...mergeLogs, spawnLog].join('. ');
 }
-
 
 export function applyShiftAction(
     state: GameState,
@@ -249,7 +248,7 @@ export function applyShiftAction(
         },
         highestExponentAchieved: Math.max(state.highestExponentAchieved, highestMergedExponent),
         isGameOver,
-        verbose: verbose(direction, shifted, newTile),
+        verbose: createAccessibleShiftAnnouncement(direction, shifted, newTile),
     }
 
     nextState.score.best[state.grid.length] = Math.max(state.score.best[state.grid.length], newScore);
