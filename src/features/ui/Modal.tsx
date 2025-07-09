@@ -1,50 +1,11 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import type { Action } from "../../app/rootReducer";
 import { useAppDispatch } from "../../app/AppContext";
 import { dismissModal } from "./uiActions";
 import { useEffect, useRef } from "react";
 import useModalFocusTrap from "./hooks/useModalFocusTrap";
 import ExitWrapper from "./ExitWrapper";
-
-const slideIn = keyframes`
-    from {
-        transform: translateY(30%) scale(50%);
-    }
-
-    to {
-        transform: none;
-    }
-`
-
-const slideOut = keyframes`
-    from {
-        transform: none;
-    }
-
-    to {
-        transform: translateY(30%) scale(50%);
-    }    
-`
-
-const fadeIn = keyframes`
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-`
-
-const fadeOut = keyframes`
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-`
+import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 
 const Overlay = styled.div`
     position: fixed;
