@@ -33,7 +33,7 @@ const tileColors: TileColor[] = [
     { bg: '#3c3a32', fg: '#fff' },
 ]
 
-const TileWrapper = styled.div<TileProps>`
+const TileWrapper = styled.div<{ $exiting?: boolean }>`
     position: absolute;
     padding: 2%;
     container-type: size;
@@ -86,8 +86,8 @@ export default function Tile(props: TileProps) {
     }
 
     return (
-        <TileWrapper style={positionStyle} className={'fade-in'} {...props}>
-            <TileView className={!!props.merged ? 'merged' : ''} exponent={props.exponent}>{2 ** props.exponent}</TileView>
+        <TileWrapper style={positionStyle} className={'fade-in'} $exiting={props.$exiting}>
+            <TileView className={!!props.merged ? 'merged' : undefined} exponent={props.exponent}>{2 ** props.exponent}</TileView>
         </TileWrapper>
     );
 }
