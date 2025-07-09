@@ -2,8 +2,9 @@ import styled, { keyframes } from "styled-components";
 import type { Action } from "../../app/rootReducer";
 import { useAppDispatch } from "../../app/AppContext";
 import { dismissModal } from "./uiActions";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import useModalFocusTrap from "./hooks/useModalFocusTrap";
+import ExitWrapper from "./ExitWrapper";
 
 const slideIn = keyframes`
     from {
@@ -139,30 +140,27 @@ function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
 export default function Modal(props: ModalProps) {
     const dispatch = useAppDispatch();
 
-    const [shouldDisplay, setShouldDisplay] = useState(!!props.content);
     const lastContent = useRef(props.content);
 
     useEffect(() => {
         if (props.content) {
-            setShouldDisplay(true);
             lastContent.current = { ...props.content };
-        } else if (shouldDisplay) {
-            const timeout = setTimeout(() => setShouldDisplay(false), 200);
-            return () => {
-                clearTimeout(timeout);
-            }
         }
-    }, [props.content, shouldDisplay]);
+    }, [props.content]);
 
     const modalRef = useRef<HTMLDialogElement | null>(null);
 
-    useModalFocusTrap(modalRef, shouldDisplay, () => { dispatch(dismissModal()) });
+    useModalFocusTrap(modalRef, !!props.content, () => { dispatch(dismissModal()) });
 
     const content = { ...(props.content || lastContent.current) }
 
-    if (shouldDisplay) {
-        return (
-            <Overlay className={!props.content ? 'exiting' : undefined} >
+    return (
+        <ExitWrapper
+            show={!!props.content}
+            exitingClassName="exiting"
+            exitAnimationTimeMilliseconds={200}
+        >
+            <Overlay>
                 <Dialog ref={modalRef} open>
                     {content.title && <h2>{content.title}</h2>}
                     {content.message && (
@@ -181,8 +179,6 @@ export default function Modal(props: ModalProps) {
                     }
                 </Dialog>
             </Overlay>
-        )
-    }
-
-    return null;
+        </ExitWrapper>
+    )
 }

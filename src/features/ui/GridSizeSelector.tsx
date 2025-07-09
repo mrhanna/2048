@@ -15,8 +15,8 @@ const SliderContainer = styled.div`
     position: absolute;
     background-color: rgb(65, 52, 37);
     border-radius: 5px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    bottom: 100%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+    bottom: calc(100% + .5em);
     padding: .5em;
     right: 0;
     z-index: 100;
