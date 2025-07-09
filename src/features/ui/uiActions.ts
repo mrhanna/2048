@@ -1,3 +1,4 @@
+import type { DefaultTheme } from "styled-components";
 import type { ModalContent } from "./Modal";
 
 export type OpenModalAction = ReturnType<typeof openModal>;
@@ -15,4 +16,12 @@ export function dismissModal() {
     };
 }
 
-export type UIAction = OpenModalAction | DismissModalAction;
+export type ThemeChangedAction = ReturnType<typeof themeChanged>;
+export function themeChanged(theme: DefaultTheme) {
+    return {
+        type: 'themeChanged',
+        payload: theme,
+    };
+}
+
+export type UIAction = OpenModalAction | DismissModalAction | ThemeChangedAction;

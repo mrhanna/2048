@@ -1,14 +1,18 @@
+import type { DefaultTheme } from "styled-components/dist/types";
 import type { Action } from "../../app/rootReducer";
 import type { ModalContent } from "./Modal";
-import type { OpenModalAction } from "./uiActions";
+import type { OpenModalAction, ThemeChangedAction } from "./uiActions";
+import config from "../../app/config";
 
 export interface UIState {
     modal: ModalContent | null,
+    theme: DefaultTheme,
 }
 
 export function initializeUIState() {
     return {
         modal: null,
+        theme: config.themes.default,
     }
 }
 
@@ -23,6 +27,11 @@ export default function uiReducer(state: UIState, action: Action) {
             return {
                 ...state,
                 modal: null,
+            }
+        case 'themeChanged':
+            return {
+                ...state,
+                theme: (action as ThemeChangedAction).payload,
             }
     }
     return state;
