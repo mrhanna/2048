@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const SliderContainer = styled.div`
     position: absolute;
     background-color: rgb(65, 52, 37);
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
     bottom: calc(100% + .5em);
     padding: .5em;
@@ -92,13 +92,15 @@ export default function GridSizeSelector() {
                                 .map((n) => <option key={n} value={n} />)}
                         </datalist>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#eee' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#eee' }}>
                         <div>{formatGridSize(localSliderValue)}</div>
-                        <button
+                        <MenuButton
                             disabled={localSliderValue === gridSize && true}
                             onClick={handleSetGridSize}
+                            className="secondary"
+                            style={{ borderColor: '#eee', color: '#eee', fontSize: '.8em' }}
                             aria-label="Confirm grid size setting"
-                        >Set</button>
+                        >Set</MenuButton>
                     </div>
                 </SliderContainer>
             </ExitWrapper>
