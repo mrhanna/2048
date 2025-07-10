@@ -1,5 +1,5 @@
 import NumberFlow from "@number-flow/react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useAppState } from "../../app/AppContext";
 import { applyVariant, type Variant } from "../ui/variants";
 
@@ -7,16 +7,33 @@ interface ScoreProps {
     label?: string,
     value: number,
     $variant: Variant,
+    onClick?: (e?: MouseEvent) => void,
 }
 
-const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
+const scoreViewWrapperStyle = css<{ $variant: Variant }>`
     text-align: center;
     ${applyVariant()}
     border-radius: ${({ theme }) => theme.borderRadius};
     padding: 10px;
     width: 150px;
     font-weight: 900;
+    font-size: inherit;
 `
+
+const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
+    ${scoreViewWrapperStyle}
+`
+
+const ClickableScoreViewWrapper = styled.button<{ $variant: Variant }>`
+    ${scoreViewWrapperStyle}
+
+    transition: transform .1s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+`
+
 
 const ScoreLabel = styled.div`
     font-size: .5em;
@@ -62,12 +79,19 @@ const GameOverDisplay = styled.div`
 `
 
 function ScoreView(props: ScoreProps) {
-    return (
+    const content = <>
+        {props.label && <ScoreLabel>{props.label}</ScoreLabel>}
+        <NumberFlow value={props.value} />
+    </>;
+
+    return !props.onClick ?
         <ScoreViewWrapper $variant={props.$variant}>
-            {props.label && <ScoreLabel>{props.label}</ScoreLabel>}
-            <NumberFlow value={props.value} />
+            {content}
         </ScoreViewWrapper>
-    )
+        :
+        <ClickableScoreViewWrapper $variant={props.$variant}>
+            {content}
+        </ClickableScoreViewWrapper>
 }
 
 export default function ScoreDisplay() {
@@ -79,7 +103,7 @@ export default function ScoreDisplay() {
     return (
         <ScoreDisplayWrapper aria-label="Scoreboard" role="region">
             <ScoreView $variant="secondary" label="Score" value={current} />
-            <ScoreView $variant="outline" label="Best" value={best[gridSize] ?? 0} />
+            <ScoreView onClick={() => { }} $variant="outline" label="Best" value={best[gridSize] ?? 0} />
 
             {state.game.isGameOver &&
                 <GameOverDisplay
