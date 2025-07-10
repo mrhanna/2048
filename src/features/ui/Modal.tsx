@@ -67,7 +67,10 @@ const DialogButton = styled.button<{ $variant: Variant }>`
 
 export interface DialogOption {
     text: string,
-    action?: Action,
+    action?: {
+        type: string,
+        payload?: any,
+    },
     $variant?: Variant,
 }
 

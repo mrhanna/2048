@@ -18,6 +18,12 @@ const variants = {
         color: ${({ theme }) => theme.colors.primary};
         border: 3px solid ${({ theme }) => theme.colors.secondary};
     `,
+
+    danger: css`
+        background-color: ${({ theme }) => theme.colors.danger};
+        color: ${({ theme }) => theme.colors.contrast};
+        border: none;
+    `
 }
 
 export function applyVariant() {

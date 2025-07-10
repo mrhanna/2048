@@ -36,4 +36,11 @@ export function incrementGoal() {
     };
 }
 
-export type GameAction = ShiftAction | NewGameAction | IncrementGoalAction;
+export type ClearHighScoresAction = ReturnType<typeof clearHighScores>
+export function clearHighScores() {
+    return {
+        type: 'clearHighScores',
+    };
+}
+
+export type GameAction = ShiftAction | NewGameAction | IncrementGoalAction | ClearHighScoresAction;

@@ -97,6 +97,17 @@ export function gameReducer(state: GameState, action: Action) {
                 ...state,
                 exponentGoal: state.exponentGoal + 1,
             }
+
+        case 'clearHighScores':
+            return {
+                ...state,
+                score: {
+                    ...state.score,
+                    best: {
+                        [config.defaultGridSize]: 0,
+                    }
+                }
+            }
     }
 
     return state;

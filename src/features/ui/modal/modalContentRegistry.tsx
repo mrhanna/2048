@@ -1,4 +1,4 @@
-import { incrementGoal, newGame } from "../../game/gameActions";
+import { clearHighScores, incrementGoal, newGame } from "../../game/gameActions";
 import type { ModalContent } from "../Modal";
 import HighScoreTable from "./HighScoreTable";
 import WinMessage from "./WinMessage";
@@ -39,8 +39,31 @@ export const modalContentRegistry = {
     highScoresModal: {
         title: 'High Scores',
         message: <HighScoreTable />,
+        options: [
+            {
+                text: 'Clear High Scores',
+                $variant: 'danger',
+                action: {
+                    type: 'openModal',
+                    payload: {
+                        type: 'confirmClearHighScoresModal',
+                    }
+                },
+            }
+        ],
         dismiss: 'Back to game',
-    }
+    },
+
+    confirmClearHighScoresModal: {
+        message: 'Are you sure you want to clear your high scores? This cannot be undone.',
+        options: [
+            {
+                text: 'Yes, clear high scores',
+                $variant: 'danger',
+                action: clearHighScores(),
+            }
+        ],
+    },
 } satisfies Record<string, ModalContentEntry<any>>;
 
 type ModalContentRegistry = typeof modalContentRegistry;
