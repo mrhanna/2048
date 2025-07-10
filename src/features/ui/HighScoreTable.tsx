@@ -1,5 +1,19 @@
+import styled from "styled-components";
 import { useAppState } from "../../app/AppContext";
 import config from "../../app/config";
+
+const StyledTable = styled.table`
+    display: inline-table;
+    border-spacing: 2px 2em;
+
+    & td:first-child {
+        text-align: left;
+    }
+
+    & td:last-child {
+        text-align: right;
+    }
+`
 
 export default function HighScoreTable() {
     const highScores = useAppState().game.score.best;
@@ -15,7 +29,7 @@ export default function HighScoreTable() {
     }
 
     return (
-        <table>
+        <StyledTable>
             <tbody>
                 <tr>
                     <th>Mode</th>
@@ -23,6 +37,6 @@ export default function HighScoreTable() {
                 </tr>
                 {rows}
             </tbody>
-        </table>
+        </StyledTable>
     )
 }
