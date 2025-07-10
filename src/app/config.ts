@@ -11,9 +11,9 @@ const config = {
 config.themes.default = {
     borderRadius: '10px',
     colors: {
-        bg: 'rgb(247, 241, 227)',
-        primary: 'rgb(102, 82, 59)',
-        secondary: 'rgb(178, 173, 161)',
+        bg: 'rgb(246, 243, 234)',
+        primary: 'rgb(137, 120, 98)',
+        secondary: 'rgb(229, 221, 212)',
         base: '#222',
         contrast: '#eee',
     }
