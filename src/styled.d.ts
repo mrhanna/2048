@@ -12,6 +12,7 @@ declare module 'styled-components' {
             secondary: string,
             base: string,
             contrast: string,
+            danger: string,
         };
     }
 }

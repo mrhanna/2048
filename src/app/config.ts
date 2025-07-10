@@ -16,6 +16,7 @@ config.themes.default = {
         secondary: 'rgb(229, 221, 212)',
         base: '#222',
         contrast: '#eee',
+        danger: 'rgb(198, 46, 46)',
     }
 }
 
