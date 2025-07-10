@@ -26,10 +26,12 @@ export default function useYouWin(state: GameState, dispatch: React.ActionDispat
                             <TileView exponent={state.exponentGoal}>{2 ** state.exponentGoal}</TileView>
                         </WinMessageTileWrapper>
                     ),
-                    dismiss: {
+                    options: [{
                         text: 'Continue',
+                        $variant: 'outline',
                         action: incrementGoal(),
-                    },
+                    }],
+                    dismiss: false,
                 })
             );
         }

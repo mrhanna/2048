@@ -24,17 +24,17 @@ export default function MenuBar() {
                 {
                     title: 'New Game',
                     message: 'All progress will be lost. Start a new game?',
-                    confirm: {
+                    options: [{
                         text: 'New Game',
                         action: newGame(),
-                    }
+                    }]
                 }
             ));
         };
 
     return (
         <MenuBarWrapper>
-            <MenuButton className="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
+            <MenuButton $variant="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
             <GridSizeSelector />
         </MenuBarWrapper>
     );

@@ -8,6 +8,7 @@ import { openModal } from "./uiActions";
 import { newGame } from "../game/gameActions";
 import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
+import variants from "./variants";
 
 const Wrapper = styled.div`
     position: relative;
@@ -15,8 +16,8 @@ const Wrapper = styled.div`
 
 const SliderContainer = styled.div`
     position: absolute;
-    background-color: rgb(65, 52, 37);
-    color: ${({ theme }) => theme.colors.contrast};
+    
+    ${variants.secondary}
     border-radius: ${({ theme }) => theme.borderRadius};
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
     bottom: calc(100% + .5em);
@@ -53,10 +54,10 @@ export default function GridSizeSelector() {
         dispatch(openModal(
             {
                 message: `All progress will be lost. Change the grid to ${formatGridSize(localSliderValue)} and start a new game?`,
-                confirm: {
+                options: [{
                     text: 'New Game',
                     action: newGame(localSliderValue),
-                }
+                }]
             }
         ));
     };
@@ -68,7 +69,7 @@ export default function GridSizeSelector() {
                     setSliderDisplaying(!isSliderDisplaying);
                     setLocalSliderValue(gridSize);
                 }}
-                className={isSliderDisplaying ? 'primary' : 'secondary'}
+                $variant={isSliderDisplaying ? 'secondary' : 'outline'}
                 aria-label="Open grid size selector"
             >{formatGridSize(gridSize)}</MenuButton>
 
@@ -102,7 +103,7 @@ export default function GridSizeSelector() {
                         <GridSizeSetButton
                             disabled={localSliderValue === gridSize && true}
                             onClick={handleSetGridSize}
-                            className="primary"
+                            $variant="primary"
                             aria-label="Confirm grid size setting"
                         >Set</GridSizeSetButton>
                     </div>

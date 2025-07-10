@@ -1,24 +1,27 @@
 import NumberFlow from "@number-flow/react";
 import styled, { keyframes } from "styled-components";
 import { useAppState } from "../../app/AppContext";
+import { applyVariant, type Variant } from "../ui/variants";
 
 interface ScoreProps {
     label?: string,
     value: number,
+    $variant: Variant,
 }
 
-const ScoreViewWrapper = styled.div`
+const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
     text-align: center;
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.contrast};
+    ${applyVariant()}
     border-radius: ${({ theme }) => theme.borderRadius};
     padding: 10px;
     width: 150px;
+    font-weight: 900;
 `
 
 const ScoreLabel = styled.div`
     font-size: .5em;
     text-transform: uppercase;
+    font-weight: normal;
 `
 
 const ScoreDisplayWrapper = styled.section`
@@ -60,7 +63,7 @@ const GameOverDisplay = styled.div`
 
 function ScoreView(props: ScoreProps) {
     return (
-        <ScoreViewWrapper>
+        <ScoreViewWrapper $variant={props.$variant}>
             {props.label && <ScoreLabel>{props.label}</ScoreLabel>}
             <NumberFlow value={props.value} />
         </ScoreViewWrapper>
@@ -75,8 +78,8 @@ export default function ScoreDisplay() {
 
     return (
         <ScoreDisplayWrapper aria-label="Scoreboard" role="region">
-            <ScoreView label="Score" value={current} />
-            <ScoreView label="Best" value={best[gridSize] ?? 0} />
+            <ScoreView $variant="secondary" label="Score" value={current} />
+            <ScoreView $variant="outline" label="Best" value={best[gridSize] ?? 0} />
 
             {state.game.isGameOver &&
                 <GameOverDisplay

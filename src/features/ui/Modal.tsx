@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import useModalFocusTrap from "./hooks/useModalFocusTrap";
 import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
+import { applyVariant, type Variant } from "./variants";
 
 const Overlay = styled.div`
     position: fixed;
@@ -47,7 +48,7 @@ const Dialog = styled.dialog`
     }
 `
 
-const DialogButton = styled.button`
+const DialogButton = styled.button<{ $variant: Variant }>`
     display: block;
     margin: .5em 0;
     padding: .5em;
@@ -56,33 +57,24 @@ const DialogButton = styled.button`
     border-radius: ${({ theme }) => theme.borderRadius};
     transition: outline .1s;
 
+    ${applyVariant()}
+
     &:hover {
         outline: 5px solid #333;
-    }
-
-    &.primary {
-        background-color: ${({ theme }) => theme.colors.primary};
-        color: ${({ theme }) => theme.colors.contrast};
-        border: none;
-    }
-
-    &.secondary {
-        background: none;
-        border: 2px solid ${({ theme }) => theme.colors.primary};
-        color: ${({ theme }) => theme.colors.primary};
     }
 `
 
 export interface DialogOption {
     text: string,
     action?: Action,
+    $variant?: Variant,
 }
 
 export interface ModalContent {
     title?: string;
     message?: string | React.ReactElement;
-    confirm?: DialogOption,
-    dismiss?: DialogOption,
+    options?: [DialogOption],
+    dismiss?: string | boolean,
 }
 
 interface ModalProps {
@@ -113,7 +105,16 @@ export default function Modal(props: ModalProps) {
 
     useModalFocusTrap(modalRef, !!props.content, () => { dispatch(dismissModal()) });
 
-    const content = { ...(props.content || lastContent.current) }
+    const content = { dismiss: true, ...(props.content || lastContent.current) }
+
+    const optionButtons = content.options?.map((option, index) => (
+        <DialogButton
+            autoFocus={index === 0 && true}
+            $variant={option.$variant ?? 'primary'}
+            onClick={makeCallback(dispatch, option.action)}
+            key={index}
+        >{option.text}</DialogButton>
+    ));
 
     return (
         <ExitWrapper
@@ -130,14 +131,14 @@ export default function Modal(props: ModalProps) {
                             :
                             content.message
                     )}
-                    {content.confirm &&
-                        <DialogButton autoFocus className="primary" onClick={makeCallback(dispatch, content.confirm.action)}>{content.confirm.text}</DialogButton>
-                    }
-                    {content.dismiss ?
-                        <DialogButton autoFocus={!content.confirm && true} className="secondary" onClick={makeCallback(dispatch, content.dismiss.action)}>{content.dismiss.text}</DialogButton>
-                        :
-                        <DialogButton autoFocus={!content.confirm && true} className="secondary" onClick={makeCallback(dispatch)}>Cancel</DialogButton>
-                    }
+                    {optionButtons}
+                    {(content.dismiss &&
+                        <DialogButton
+                            autoFocus={!content.options && true}
+                            $variant="outline"
+                            onClick={makeCallback(dispatch)}
+                        >{typeof content.dismiss === 'boolean' ? 'Cancel' : content.dismiss}</DialogButton>
+                    )}
                 </Dialog>
             </Overlay>
         </ExitWrapper>

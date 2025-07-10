@@ -4,18 +4,24 @@ const variants = {
     primary: css`
         background-color: ${({ theme }) => theme.colors.primary};
         color: ${({ theme }) => theme.colors.contrast};
+        border: none;
     `,
 
     secondary: css`
         background-color: ${({ theme }) => theme.colors.secondary};
         color: ${({ theme }) => theme.colors.primary};
+        border: none;
     `,
 
     outline: css`
         background: transparent;
         color: ${({ theme }) => theme.colors.primary};
-        border: 2px solid ${({ theme }) => theme.colors.primary};
+        border: 3px solid ${({ theme }) => theme.colors.secondary};
     `,
+}
+
+export function applyVariant() {
+    return ({ $variant }: { $variant?: Variant }) => $variant && variants[$variant];
 }
 
 export type Variant = keyof typeof variants;
