@@ -1,5 +1,6 @@
 import { incrementGoal, newGame } from "../../game/gameActions";
 import type { ModalContent } from "../Modal";
+import HighScoreTable from "./HighScoreTable";
 import WinMessage from "./WinMessage";
 
 type ModalContentEntry<P = undefined> = P extends undefined ? ModalContent : (params: P) => ModalContent;
@@ -33,6 +34,12 @@ export const modalContentRegistry = {
             action: incrementGoal(),
         }],
         dismiss: false,
+    },
+
+    highScoresModal: {
+        title: 'High Scores',
+        message: <HighScoreTable />,
+        dismiss: 'Back to game',
     }
 } satisfies Record<string, ModalContentEntry<any>>;
 

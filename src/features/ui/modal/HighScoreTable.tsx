@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useAppState } from "../../app/AppContext";
-import config from "../../app/config";
+import { useAppState } from "../../../app/AppContext";
+import config from "../../../app/config";
 
 const StyledTable = styled.table`
     display: inline-table;

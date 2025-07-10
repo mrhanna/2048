@@ -1,13 +1,14 @@
 import NumberFlow from "@number-flow/react";
 import styled, { css, keyframes } from "styled-components";
-import { useAppState } from "../../app/AppContext";
+import { useAppDispatch, useAppState } from "../../app/AppContext";
 import { applyVariant, type Variant } from "../ui/variants";
+import { openModal } from "../ui/uiActions";
 
 interface ScoreProps {
     label?: string,
     value: number,
     $variant: Variant,
-    onClick?: (e?: MouseEvent) => void,
+    onClick?: React.MouseEventHandler,
 }
 
 const scoreViewWrapperStyle = css<{ $variant: Variant }>`
@@ -89,21 +90,28 @@ function ScoreView(props: ScoreProps) {
             {content}
         </ScoreViewWrapper>
         :
-        <ClickableScoreViewWrapper $variant={props.$variant}>
+        <ClickableScoreViewWrapper $variant={props.$variant} onClick={props.onClick}>
             {content}
         </ClickableScoreViewWrapper>
 }
 
 export default function ScoreDisplay() {
     const state = useAppState();
+    const dispatch = useAppDispatch();
 
     const { current, best } = state.game.score;
     const gridSize = state.game.grid.length;
 
+    const handleBestScoreClicked = () => {
+        dispatch(openModal(
+            'highScoresModal',
+        ));
+    }
+
     return (
         <ScoreDisplayWrapper aria-label="Scoreboard" role="region">
             <ScoreView $variant="secondary" label="Score" value={current} />
-            <ScoreView onClick={() => { }} $variant="outline" label="Best" value={best[gridSize] ?? 0} />
+            <ScoreView onClick={handleBestScoreClicked} $variant="outline" label="Best" value={best[gridSize] ?? 0} />
 
             {state.game.isGameOver &&
                 <GameOverDisplay
