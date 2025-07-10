@@ -9,8 +9,8 @@ const GridView = styled.div`
     display: inline-block;
     aspect-ratio: 1;
     width: 100%;
-    background-color:rgb(102, 82, 59);
-    border-radius: 10px;
+    background-color: ${({ theme }) => theme.colors.primary};
+    border-radius: ${({ theme }) => theme.borderRadius};
     padding: 2%;
 `
 

@@ -9,9 +9,9 @@ interface ScoreProps {
 
 const ScoreViewWrapper = styled.div`
     text-align: center;
-    background-color:rgb(102, 82, 59);
-    color: #eee;
-    border-radius: 10px;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.contrast};
+    border-radius: ${({ theme }) => theme.borderRadius};
     padding: 10px;
     width: 150px;
 `
@@ -43,7 +43,7 @@ const GameOverDisplay = styled.div`
     position: absolute;
     left: 0;
     top: 0;
-    background-color: rgb(247, 241, 227);
+    background-color: ${({ theme }) => theme.colors.bg};
 
     width: 100%;
     height: 100%;

@@ -16,7 +16,8 @@ const Wrapper = styled.div`
 const SliderContainer = styled.div`
     position: absolute;
     background-color: rgb(65, 52, 37);
-    border-radius: 10px;
+    color: ${({ theme }) => theme.colors.contrast};
+    border-radius: ${({ theme }) => theme.borderRadius};
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
     bottom: calc(100% + .5em);
     padding: .5em;
@@ -29,6 +30,10 @@ const SliderContainer = styled.div`
         animation: ${slideOut} .1s ease-out, ${fadeOut} .1s ease-out;
         animation-fill-mode: forwards;
     }
+`
+
+const GridSizeSetButton = styled(MenuButton)`
+    font-size: .8em;
 `
 
 const formatGridSize = (n: number) => `${n}\u00D7${n}`;
@@ -92,15 +97,14 @@ export default function GridSizeSelector() {
                                 .map((n) => <option key={n} value={n} />)}
                         </datalist>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#eee' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>{formatGridSize(localSliderValue)}</div>
-                        <MenuButton
+                        <GridSizeSetButton
                             disabled={localSliderValue === gridSize && true}
                             onClick={handleSetGridSize}
-                            className="secondary"
-                            style={{ borderColor: '#eee', color: '#eee', fontSize: '.8em' }}
+                            className="primary"
                             aria-label="Confirm grid size setting"
-                        >Set</MenuButton>
+                        >Set</GridSizeSetButton>
                     </div>
                 </SliderContainer>
             </ExitWrapper>

@@ -31,9 +31,9 @@ const Overlay = styled.div`
 
 const Dialog = styled.dialog`
     position: relative;
-    background: rgb(247, 241, 227);
+    background: ${({ theme }) => theme.colors.bg};
     padding: 24pt;
-    border-radius: 20px;
+    border-radius: ${({ theme }) => theme.borderRadius};
     z-index: 1001;
     border: none;
     text-align: center;
@@ -53,7 +53,7 @@ const DialogButton = styled.button`
     padding: .5em;
     width: 100%;
     font-size: inherit;
-    border-radius: 10px;
+    border-radius: ${({ theme }) => theme.borderRadius};
     transition: outline .1s;
 
     &:hover {
@@ -61,15 +61,15 @@ const DialogButton = styled.button`
     }
 
     &.primary {
-        background-color: rgb(102, 82, 59);
-        color: #eee;
+        background-color: ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.contrast};
         border: none;
     }
 
     &.secondary {
         background: none;
-        border: 2px solid rgb(102, 82, 59);
-        color: rgb(102, 82, 59);
+        border: 2px solid ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.primary};
     }
 `
 

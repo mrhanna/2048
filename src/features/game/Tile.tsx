@@ -67,7 +67,7 @@ export const TileView = styled.div<{ exponent: number }>`
 
     transition: color .3s, background-color .3s;
 
-    border-radius: 10px;
+    border-radius: ${({ theme }) => theme.borderRadius};
 
     ${({ exponent }) => css`
         background-color: ${tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg};

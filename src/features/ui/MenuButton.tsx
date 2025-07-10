@@ -4,7 +4,7 @@ const MenuButton = styled.button`
     display: block;
     padding: .5em;
     font-size: inherit;
-    border-radius: 10px;
+    border-radius: ${({ theme }) => theme.borderRadius};
     transition: transform .1s ease-out, background .1s, color .1s;
 
     &:hover {
@@ -12,15 +12,15 @@ const MenuButton = styled.button`
     }
 
     &.primary {
-        background-color: rgb(102, 82, 59);
-        color: #eee;
+        background-color: ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.contrast};
         border: none;
     }
 
     &.secondary {
         background: none;
-        border: 2px solid rgb(102, 82, 59);
-        color: rgb(102, 82, 59);
+        border: 2px solid ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.primary};
     }
 `
 

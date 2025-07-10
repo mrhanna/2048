@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { useReducer } from "react";
 import ScoreDisplay from "./features/game/ScoreDisplay";
 import Grid from "./features/game/Grid";
@@ -8,6 +8,13 @@ import rootReducer, { initializeState } from "./app/rootReducer";
 import Modal from "./features/ui/Modal";
 import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
+import config from "./app/config";
+
+const RootWrapper = styled.div`
+    background: ${({ theme }) => theme.colors.bg};
+    width: 100%;
+    min-height: 100vh;
+`
 
 const AppWrapper = styled.main`
     width: 100%;
@@ -24,13 +31,17 @@ function App() {
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
-            <Modal content={state.ui.modal} />
-            <AppWrapper>
-                <ScoreDisplay />
-                <Grid grid={state.game.grid} />
-                <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
-                <MenuBar />
-            </AppWrapper>
+            <ThemeProvider theme={state.ui.theme ?? config.themes.default}>
+                <RootWrapper>
+                    <Modal content={state.ui.modal} />
+                    <AppWrapper>
+                        <ScoreDisplay />
+                        <Grid grid={state.game.grid} />
+                        <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
+                        <MenuBar />
+                    </AppWrapper>
+                </RootWrapper>
+            </ThemeProvider>
         </AppContext.Provider>
     )
 }
