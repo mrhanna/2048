@@ -4,14 +4,29 @@ import config from "../../../app/config";
 
 const StyledTable = styled.table`
     display: inline-table;
-    border-spacing: 2px 2em;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: ${({ theme }) => theme.colors.primary};
+    width: 63%;
+    min-width: min(200px, 100%);
+    margin: 0 0 1em;
 
-    & td:first-child {
+    & tr:nth-child(odd) {
+        background-color: ${({ theme }) => theme.colors.secondary};
+        color: ${({ theme }) => theme.colors.primary};
+    }
+
+    & th, & td {
+        padding: .5em;
+    }
+
+    & td:first-child, & th:first-child {
         text-align: left;
     }
 
-    & td:last-child {
+    & td:last-child, & th:last-child {
         text-align: right;
+        font-weight: 900;
     }
 `
 
@@ -31,10 +46,6 @@ export default function HighScoreTable() {
     return (
         <StyledTable>
             <tbody>
-                <tr>
-                    <th>Mode</th>
-                    <th>Score</th>
-                </tr>
                 {rows}
             </tbody>
         </StyledTable>
