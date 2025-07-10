@@ -33,7 +33,7 @@ function App() {
         <AppContext.Provider value={{ state, dispatch }}>
             <ThemeProvider theme={state.ui.theme ?? config.themes.default}>
                 <RootWrapper>
-                    <Modal content={state.ui.modal} />
+                    <Modal intent={state.ui.modal} />
                     <AppWrapper>
                         <ScoreDisplay />
                         <Grid grid={state.game.grid} />

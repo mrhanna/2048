@@ -7,6 +7,7 @@ import useModalFocusTrap from "./hooks/useModalFocusTrap";
 import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 import { applyVariant, type Variant } from "./variants";
+import { realizeModalContent, type ModalIntent } from "./modal/modalContentRegistry";
 
 const Overlay = styled.div`
     position: fixed;
@@ -77,10 +78,6 @@ export interface ModalContent {
     dismiss?: string | boolean,
 }
 
-interface ModalProps {
-    content: ModalContent | null,
-}
-
 function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
     return () => {
         dispatch(dismissModal());
@@ -90,22 +87,27 @@ function makeCallback(dispatch: React.Dispatch<Action>, action?: Action) {
     }
 }
 
-export default function Modal(props: ModalProps) {
+export default function Modal({ intent }: { intent: ModalIntent | null }) {
     const dispatch = useAppDispatch();
-
-    const lastContent = useRef(props.content);
+    const lastIntent = useRef(intent);
 
     useEffect(() => {
-        if (props.content) {
-            lastContent.current = { ...props.content };
+        if (intent) {
+            lastIntent.current = { ...intent };
         }
-    }, [props.content]);
+    }, [intent]);
 
     const modalRef = useRef<HTMLDialogElement | null>(null);
+    useModalFocusTrap(modalRef, !!intent, () => { dispatch(dismissModal()) });
 
-    useModalFocusTrap(modalRef, !!props.content, () => { dispatch(dismissModal()) });
+    const intentToRender = intent || lastIntent.current;
+    if (!intentToRender) return null;
 
-    const content = { dismiss: true, options: [], ...(props.content || lastContent.current) }
+    const content = {
+        dismiss: true,
+        options: [],
+        ...realizeModalContent(intentToRender)
+    }
 
     const optionButtons = content.options.map((option, index) => (
         <DialogButton
@@ -118,7 +120,7 @@ export default function Modal(props: ModalProps) {
 
     return (
         <ExitWrapper
-            show={!!props.content}
+            show={!!intent}
             exitingClassName="exiting"
             exitAnimationTimeMilliseconds={200}
         >

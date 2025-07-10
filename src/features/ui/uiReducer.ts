@@ -1,11 +1,11 @@
 import type { DefaultTheme } from "styled-components/dist/types";
 import type { Action } from "../../app/rootReducer";
-import type { ModalContent } from "./Modal";
 import type { OpenModalAction, ThemeChangedAction } from "./uiActions";
 import config from "../../app/config";
+import type { ModalIntent } from "./modal/modalContentRegistry";
 
 export interface UIState {
-    modal: ModalContent | null,
+    modal: ModalIntent | null,
     theme: DefaultTheme,
 }
 

@@ -1,13 +1,24 @@
 import type { DefaultTheme } from "styled-components";
-import type { ModalContent } from "./Modal";
+import type { ModalIntent, ModalIntentParams, ModalIntentType } from "./modal/modalContentRegistry";
 
-export type OpenModalAction = ReturnType<typeof openModal>;
-export function openModal(modalProps: ModalContent) {
+// export type OpenModalAction = ReturnType<typeof openModal>
+export type OpenModalAction = {
+    type: 'openModal',
+    payload: ModalIntent
+}
+export function openModal<T extends ModalIntentType>(
+    type: T,
+    params?: ModalIntentParams<T>,
+) {
     return {
-        type: 'openModal',
-        payload: modalProps,
+        type: 'openModal' as const,
+        payload: {
+            type,
+            params,
+        }
     };
 }
+
 
 export type DismissModalAction = ReturnType<typeof dismissModal>;
 export function dismissModal() {

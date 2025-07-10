@@ -5,7 +5,6 @@ import styled from "styled-components";
 import useClickOutside from "./hooks/useClickOutside";
 import config from "../../app/config";
 import { openModal } from "./uiActions";
-import { newGame } from "../game/gameActions";
 import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 import variants from "./variants";
@@ -52,13 +51,8 @@ export default function GridSizeSelector() {
 
     const handleSetGridSize = () => {
         dispatch(openModal(
-            {
-                message: `All progress will be lost. Change the grid to ${formatGridSize(localSliderValue)} and start a new game?`,
-                options: [{
-                    text: 'New Game',
-                    action: newGame(localSliderValue),
-                }]
-            }
+            'confirmGridChangeModal',
+            { nextGridSize: localSliderValue },
         ));
     };
 

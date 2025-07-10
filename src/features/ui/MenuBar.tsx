@@ -21,14 +21,7 @@ export default function MenuBar() {
         :
         () => {
             dispatch(openModal(
-                {
-                    title: 'New Game',
-                    message: 'All progress will be lost. Start a new game?',
-                    options: [{
-                        text: 'New Game',
-                        action: newGame(),
-                    }]
-                }
+                'newGameModal',
             ));
         };
 
