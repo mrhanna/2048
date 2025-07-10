@@ -73,7 +73,7 @@ export interface DialogOption {
 export interface ModalContent {
     title?: string;
     message?: string | React.ReactElement;
-    options?: [DialogOption],
+    options?: DialogOption[],
     dismiss?: string | boolean,
 }
 
@@ -105,9 +105,9 @@ export default function Modal(props: ModalProps) {
 
     useModalFocusTrap(modalRef, !!props.content, () => { dispatch(dismissModal()) });
 
-    const content = { dismiss: true, ...(props.content || lastContent.current) }
+    const content = { dismiss: true, options: [], ...(props.content || lastContent.current) }
 
-    const optionButtons = content.options?.map((option, index) => (
+    const optionButtons = content.options.map((option, index) => (
         <DialogButton
             autoFocus={index === 0 && true}
             $variant={option.$variant ?? 'primary'}
@@ -134,7 +134,7 @@ export default function Modal(props: ModalProps) {
                     {optionButtons}
                     {(content.dismiss &&
                         <DialogButton
-                            autoFocus={!content.options && true}
+                            autoFocus={content.options.length === 0}
                             $variant="outline"
                             onClick={makeCallback(dispatch)}
                         >{typeof content.dismiss === 'boolean' ? 'Cancel' : content.dismiss}</DialogButton>
