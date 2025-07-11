@@ -7,7 +7,7 @@ import { themeTransition } from '../ui/themeTransition';
 
 const GridView = styled.div`
     position: relative;
-    display: inline-block;
+    display: block;
     aspect-ratio: 1;
     width: 100%;
     background-color: ${({ theme }) => theme.colors.gridBg};
