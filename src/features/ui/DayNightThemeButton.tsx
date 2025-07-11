@@ -3,7 +3,7 @@ import MenuButton from "./MenuButton";
 import { useAppDispatch, useAppState } from "../../app/AppContext";
 import config from "../../app/config";
 import { themeChanged } from "./uiActions";
-import type { ComponentProps } from "react";
+import { useEffect, useRef, type ComponentProps } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 const iconEntrance = keyframes`
@@ -51,6 +51,10 @@ const iconCss = css`
     &.show {
         animation: ${iconEntrance} .6s ease-out;
     }
+
+    &.no-animate {
+        animation: none !important;
+    }
 `
 
 const Sun = styled(HiSun)`
@@ -70,6 +74,12 @@ const DayNightStyledButton = styled(MenuButton)`
 export default function DayNightThemeButton(props: ComponentProps<typeof MenuButton>) {
     const state = useAppState();
     const dispatch = useAppDispatch();
+
+    const noAnimate = useRef(true);
+
+    useEffect(() => {
+        noAnimate.current = false;
+    }, [])
 
     const themeName = state.ui.theme.name;
 
@@ -93,8 +103,8 @@ export default function DayNightThemeButton(props: ComponentProps<typeof MenuBut
             aria-label="night mode toggle"
             aria-pressed={themeName === 'dark'}
             {...props}>
-            <Sun className={themeName !== 'dark' ? 'show' : undefined} />
-            <Moon className={themeName === 'dark' ? 'show' : undefined} />
+            <Sun className={`${themeName !== 'dark' ? 'show' : ''} ${noAnimate.current ? 'no-animate' : ''}`} />
+            <Moon className={`${themeName === 'dark' ? 'show' : ''} ${noAnimate.current ? 'no-animate' : ''}`} />
         </DayNightStyledButton>
     )
 }
