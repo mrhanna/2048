@@ -11,7 +11,7 @@ const GridView = styled.div`
     width: 100%;
     background-color: ${({ theme }) => theme.colors.primary};
     border-radius: ${({ theme }) => theme.borderRadius};
-    padding: 2%;
+    padding: ${({ theme }) => theme.tileSpacing}
 `
 
 export interface GridProps {

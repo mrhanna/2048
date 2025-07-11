@@ -9,7 +9,8 @@ const config = {
 };
 
 config.themes.default = {
-    borderRadius: '10px',
+    tileSpacing: '1.4%',
+    borderRadius: '6px',
     colors: {
         bg: 'rgb(246, 243, 234)',
         primary: 'rgb(137, 120, 98)',

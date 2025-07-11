@@ -35,7 +35,7 @@ const tileColors: TileColor[] = [
 
 const TileWrapper = styled.div<{ $exiting?: boolean }>`
     position: absolute;
-    padding: 2%;
+    padding: ${({ theme }) => theme.tileSpacing};
     container-type: size;
     box-sizing: border-box;
     z-index: ${({ $exiting }) => $exiting ? '1' : '2'};
