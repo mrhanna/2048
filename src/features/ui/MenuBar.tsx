@@ -5,6 +5,7 @@ import { openModal } from "./uiActions";
 import MenuButton from "./MenuButton";
 import GridSizeSelector from "./GridSizeSelector";
 import DayNightThemeButton from "./DayNightThemeButton";
+import { HiRefresh } from "react-icons/hi";
 
 const MenuBarWrapper = styled.div`
     display: flex;
@@ -28,7 +29,7 @@ export default function MenuBar() {
 
     return (
         <MenuBarWrapper>
-            <MenuButton $variant="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
+            <MenuButton $variant="secondary" onClick={handleNewGameClicked} aria-label="new game button"><HiRefresh /></MenuButton>
             <DayNightThemeButton />
             <GridSizeSelector />
         </MenuBarWrapper>
