@@ -6,9 +6,11 @@ import { themeChanged } from "./uiActions";
 import { useEffect, useRef, type ComponentProps } from "react";
 import styled, { css, keyframes } from "styled-components";
 
+const animSpeed = '.4s';
+
 const iconEntrance = keyframes`
     from {
-        transform: rotate(90deg);
+        transform: rotate(60deg);
         opacity: 0;
     }
 
@@ -33,7 +35,7 @@ const iconExit = keyframes`
     }
 
     to {
-        transform: rotate(-90deg);
+        transform: rotate(-60deg);
         opacity: 0;
     }
 `;
@@ -44,12 +46,12 @@ const iconCss = css`
     grid-column: 1;
 
     &:not(.show) {
-        animation: ${iconExit} .6s ease-in;
+        animation: ${iconExit} ${animSpeed} ease-in;
         opacity: 0;
     }
 
     &.show {
-        animation: ${iconEntrance} .6s ease-out;
+        animation: ${iconEntrance} ${animSpeed} ease-out;
     }
 
     &.no-animate {
