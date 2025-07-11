@@ -133,7 +133,7 @@ export default function Modal({ intent }: { intent: ModalIntent | null }) {
             exitAnimationTimeMilliseconds={200}
         >
             <Overlay>
-                <Dialog ref={modalRef} open>
+                <Dialog ref={modalRef} key={intentToRender.type} open>
                     {content.title && <h2>{content.title}</h2>}
                     {content.message && (
                         typeof content.message === 'string' ?
