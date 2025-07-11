@@ -18,10 +18,12 @@ export default function AccessibleGrid({ grid }: AccessibleGridProps) {
     })
 
     return (
-        <table aria-label="2048 game grid" className="sr-only">
-            <tbody>
-                {rows}
-            </tbody>
-        </table>
+        <div className="sr-only">
+            <table aria-label="2048 game grid">
+                <tbody>
+                    {rows}
+                </tbody>
+            </table>
+        </div>
     )
 }

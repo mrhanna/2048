@@ -14,6 +14,8 @@ const RootWrapper = styled.div`
     background: ${({ theme }) => theme.colors.bg};
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
+    padding: 0 10px;
 `
 
 const AppWrapper = styled.main`
