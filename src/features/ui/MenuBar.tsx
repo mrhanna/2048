@@ -4,6 +4,7 @@ import { useAppDispatch, useAppState } from "../../app/AppContext";
 import { openModal } from "./uiActions";
 import MenuButton from "./MenuButton";
 import GridSizeSelector from "./GridSizeSelector";
+import DayNightThemeButton from "./DayNightThemeButton";
 
 const MenuBarWrapper = styled.div`
     display: flex;
@@ -28,6 +29,7 @@ export default function MenuBar() {
     return (
         <MenuBarWrapper>
             <MenuButton $variant="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
+            <DayNightThemeButton style={{ alignSelf: 'flex-end' }} />
             <GridSizeSelector />
         </MenuBarWrapper>
     );

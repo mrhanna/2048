@@ -3,6 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import { useAppDispatch, useAppState } from "../../app/AppContext";
 import { applyVariant, type Variant } from "../ui/variants";
 import { openModal } from "../ui/uiActions";
+import { themeTransitionAnd } from "../ui/themeTransition";
 
 interface ScoreProps {
     label?: string,
@@ -19,6 +20,7 @@ const scoreViewWrapperStyle = css<{ $variant: Variant }>`
     width: 150px;
     font-weight: 900;
     font-size: inherit;
+    ${themeTransitionAnd('transform .1s')}
 `
 
 const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
@@ -27,8 +29,6 @@ const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
 
 const ClickableScoreViewWrapper = styled.button<{ $variant: Variant }>`
     ${scoreViewWrapperStyle}
-
-    transition: transform .1s;
 
     &:hover {
         transform: scale(1.1);

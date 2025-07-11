@@ -9,13 +9,16 @@ import Modal from "./features/ui/Modal";
 import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
 import config from "./app/config";
+import { themeTransition } from "./features/ui/themeTransition";
 
 const RootWrapper = styled.div`
     background: ${({ theme }) => theme.colors.bg};
+    color: ${({ theme }) => theme.colors.base};
     width: 100%;
     min-height: 100vh;
     min-height: 100svh;
     padding: 0 10px;
+    ${themeTransition}
 `
 
 const AppWrapper = styled.main`

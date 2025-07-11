@@ -8,6 +8,7 @@ import { openModal } from "./uiActions";
 import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 import variants from "./variants";
+import { themeTransition } from "./themeTransition";
 
 const Wrapper = styled.div`
     position: relative;
@@ -25,6 +26,8 @@ const SliderContainer = styled.div`
     z-index: 100;
     animation: ${slideIn} .1s ease-out, ${fadeIn} .1s ease-out;
     transform-origin: bottom right;
+
+    ${themeTransition}
 
     &.exiting {
         animation: ${slideOut} .1s ease-out, ${fadeOut} .1s ease-out;

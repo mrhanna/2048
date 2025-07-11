@@ -8,6 +8,7 @@ import ExitWrapper from "./ExitWrapper";
 import { fadeIn, fadeOut, slideIn, slideOut } from "./animations";
 import { applyVariant, type Variant } from "./variants";
 import { realizeModalContent, type ModalIntent } from "./modal/modalContentRegistry";
+import { themeTransition } from "./themeTransition";
 
 const Overlay = styled.div`
     position: fixed;
@@ -33,7 +34,8 @@ const Overlay = styled.div`
 
 const Dialog = styled.dialog`
     position: relative;
-    background: ${({ theme }) => theme.colors.bg};
+    background: ${({ theme }) => theme.colors.modalBg};
+    color: ${({ theme }) => theme.colors.base};
     padding: 24pt;
     border-radius: ${({ theme }) => theme.borderRadius};
     z-index: 1001;
@@ -43,6 +45,9 @@ const Dialog = styled.dialog`
 
     width: 100%;
     max-width: 80vh;
+
+
+    ${themeTransition}
 
     .exiting & {
         animation: ${slideOut} .2s ease-in forwards;

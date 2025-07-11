@@ -3,15 +3,17 @@ import styled from 'styled-components';
 import type { GridState } from './gameReducer';
 import useShiftHandlers from './useShiftHandlers';
 import AccessibleGrid from './AccessibleGrid';
+import { themeTransition } from '../ui/themeTransition';
 
 const GridView = styled.div`
     position: relative;
     display: inline-block;
     aspect-ratio: 1;
     width: 100%;
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.gridBg};
     border-radius: ${({ theme }) => theme.borderRadius};
-    padding: ${({ theme }) => theme.tileSpacing}
+    padding: ${({ theme }) => theme.tileSpacing};
+    ${themeTransition}
 `
 
 export interface GridProps {

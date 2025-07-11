@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useAppState } from "../../../app/AppContext";
 import config from "../../../app/config";
+import { themeTransition } from "../themeTransition";
 
 const StyledTable = styled.table`
     display: inline-table;
@@ -10,6 +11,8 @@ const StyledTable = styled.table`
     width: 63%;
     min-width: min(200px, 100%);
     margin: 0 0 1em;
+
+    ${themeTransition}
 
     & tr:nth-child(odd) {
         background-color: ${({ theme }) => theme.colors.secondary};
