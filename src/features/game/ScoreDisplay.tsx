@@ -64,6 +64,7 @@ const ScoreDisplayWrapper = styled.section`
 
     @media screen and (min-width: 768px) {
         justify-content: center;
+        padding: 1em 0;
     }
 `
 
