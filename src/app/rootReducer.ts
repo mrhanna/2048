@@ -1,3 +1,4 @@
+import deepmerge from "deepmerge";
 import type { GameAction } from "../features/game/gameActions";
 import { gameReducer, initializeGameState, type GameState } from "../features/game/gameReducer";
 import type { UIAction } from "../features/ui/uiActions";
@@ -16,7 +17,18 @@ export function initializeState() {
 
     if (saved) {
         try {
-            return JSON.parse(saved);
+            const state = JSON.parse(saved);
+
+            const overwriteMerge = (_: [], sourceArray: []) => sourceArray;
+
+            return deepmerge(
+                {
+                    game: initializeGameState(),
+                    ui: initializeUIState(),
+                },
+                state,
+                { arrayMerge: overwriteMerge }
+            )
         } catch (e) {
             // fallback to new game
         }

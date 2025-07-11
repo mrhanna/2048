@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export default function usePersistence<T>(key: string, value: T, delayMilliseconds = 300) {
-    const timeoutRef = useRef<number | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
