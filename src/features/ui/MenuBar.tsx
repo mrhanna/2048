@@ -29,7 +29,7 @@ export default function MenuBar() {
     return (
         <MenuBarWrapper>
             <MenuButton $variant="secondary" onClick={handleNewGameClicked}>New Game</MenuButton>
-            <DayNightThemeButton style={{ alignSelf: 'flex-end' }} />
+            <DayNightThemeButton />
             <GridSizeSelector />
         </MenuBarWrapper>
     );

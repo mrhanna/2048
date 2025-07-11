@@ -5,6 +5,10 @@ html {
   overscroll-behavior: none;
 }
 
+button {
+  font-family: inherit;
+}
+
 body {
   overscroll-behavior: none;
   margin: 0;
