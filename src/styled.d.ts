@@ -4,6 +4,7 @@ import 'styled-components';
 // and extend them!
 declare module 'styled-components' {
     export interface DefaultTheme {
+        name: string,
         borderRadius: string,
         tileSpacing: string,
 
@@ -14,6 +15,8 @@ declare module 'styled-components' {
             base: string,
             contrast: string,
             danger: string,
+            modalBg: string,
+            gridBg: string,
         };
     }
 }
