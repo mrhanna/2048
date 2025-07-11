@@ -14,6 +14,8 @@ const Overlay = styled.div`
     position: fixed;
     width: 100vw;
     height: 100vh;
+    height: 100svh;
+
     left: 0;
     top: 0;
 
@@ -45,6 +47,7 @@ const Dialog = styled.dialog`
 
     width: 100%;
     max-width: 80vh;
+    margin: 0 1em;
 
 
     ${themeTransition}
