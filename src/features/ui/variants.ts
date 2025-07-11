@@ -16,7 +16,8 @@ const variants = {
     outline: css`
         background: transparent;
         color: ${({ theme }) => theme.colors.primary};
-        border: 3px solid ${({ theme }) => theme.colors.secondary};
+        box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.secondary};
+        border: none;
     `,
 
     danger: css`
