@@ -12,6 +12,7 @@ import config from "./app/config";
 import { themeTransition } from "./features/ui/themeTransition";
 
 const RootWrapper = styled.div`
+    font-size: 18pt;
     background: ${({ theme }) => theme.colors.bg};
     color: ${({ theme }) => theme.colors.base};
     width: 100%;

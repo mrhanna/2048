@@ -1,6 +1,5 @@
 html {
-  font-size: 24pt;
-  font-size: clamp(12pt, 3.5vh, 24pt);
+  font-size: 18pt;
   font-family: 'Lato', sans-serif;
   overscroll-behavior: none;
 }

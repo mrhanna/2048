@@ -13,14 +13,26 @@ interface ScoreProps {
 }
 
 const scoreViewWrapperStyle = css<{ $variant: Variant }>`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 14pt;
+
     text-align: center;
     ${applyVariant()}
     border-radius: ${({ theme }) => theme.borderRadius};
     padding: 10px;
     width: 150px;
     font-weight: 900;
-    font-size: inherit;
+
     ${themeTransitionAnd('transform .1s')}
+
+    @media screen and (min-width: 768px) {
+        font-size: 18pt;
+        flex-direction: column;
+    }
 `
 
 const ScoreViewWrapper = styled.div<{ $variant: Variant }>`
@@ -37,7 +49,7 @@ const ClickableScoreViewWrapper = styled.button<{ $variant: Variant }>`
 
 
 const ScoreLabel = styled.div`
-    font-size: .5em;
+    font-size: 9pt;
     text-transform: uppercase;
     font-weight: normal;
 `
@@ -45,9 +57,14 @@ const ScoreLabel = styled.div`
 const ScoreDisplayWrapper = styled.section`
     position: relative;
     display: flex;
-    justify-content: center;
-    gap: 1em;
-    padding: 1em 0;
+    justify-content: space-between;
+
+    gap: 10px;
+    padding: 10px 0;
+
+    @media screen and (min-width: 768px) {
+        justify-content: center;
+    }
 `
 
 const fadeIn = keyframes`

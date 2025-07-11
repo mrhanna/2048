@@ -11,8 +11,8 @@ const MenuBarWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
 
-    padding: 1em 0;
-    gap: .5em;
+    padding: 10px 0;
+    gap: 10px;
 `
 
 export default function MenuBar() {
