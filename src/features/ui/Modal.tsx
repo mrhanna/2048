@@ -56,12 +56,12 @@ const DialogButton = styled.button<{ $variant: Variant }>`
     width: 100%;
     font-size: inherit;
     border-radius: ${({ theme }) => theme.borderRadius};
-    transition: outline .1s;
+    transition: transform .1s;
 
     ${applyVariant()}
 
     &:hover {
-        outline: 5px solid #333;
+        transform: scale(1.05);
     }
 `
 
