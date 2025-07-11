@@ -3,8 +3,10 @@ import { applyVariant, type Variant } from "./variants";
 import { themeTransitionAnd } from "./themeTransition";
 
 const MenuButton = styled.button<{ $variant?: Variant }>`
-    display: block;
     padding: .5em;
+    display: grid;
+    place-items: center;
+    
     font-size: inherit;
     border-radius: ${({ theme }) => theme.borderRadius};
     ${themeTransitionAnd('transform .1s ease-out, opacity .1s')}

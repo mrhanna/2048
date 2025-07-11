@@ -9,9 +9,10 @@ import { HiRefresh } from "react-icons/hi";
 
 const MenuBarWrapper = styled.div`
     display: flex;
+    justify-content: flex-end;
+
     padding: 1em 0;
-    justify-content: space-between;
-    gap: 1em;
+    gap: .5em;
 `
 
 export default function MenuBar() {

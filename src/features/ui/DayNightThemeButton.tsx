@@ -67,8 +67,6 @@ const Moon = styled(HiMoon)`
 
 const DayNightStyledButton = styled(MenuButton)`
     overflow: hidden;
-    display: grid;
-    place-items: center;
 `
 
 export default function DayNightThemeButton(props: ComponentProps<typeof MenuButton>) {
