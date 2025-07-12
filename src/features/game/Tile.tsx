@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import '../../style.css';
 
 export interface UnpositionedTileProps {
@@ -33,6 +33,32 @@ const tileColors: TileColor[] = [
     { bg: '#3c3a32', fg: '#fff' },
 ]
 
+const mergeGrow = keyframes`
+    0% {
+        transform: scale(1);
+    }
+
+    33% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+`
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+`
+
 const TileWrapper = styled.div<{ $exiting?: boolean }>`
     position: absolute;
     padding: ${({ theme }) => theme.tileSpacing};
@@ -43,6 +69,14 @@ const TileWrapper = styled.div<{ $exiting?: boolean }>`
     ${({ $exiting }) => css`
         transition: all .2s ${$exiting ? '' : 'cubic-bezier(.25,.1,.25,1.25)'};
     `}
+
+    &.fade-in {
+        animation: ${fadeIn} 0.3s ease;
+    }
+
+    &.merged {
+        animation: ${mergeGrow} 0.3s;
+    }
 `;
 
 export const TileView = styled.div<{ exponent: number }>`
