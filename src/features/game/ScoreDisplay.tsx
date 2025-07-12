@@ -3,7 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import { useAppDispatch, useAppState } from "../../app/AppContext";
 import { applyVariant, type Variant } from "../ui/variants";
 import { openModal } from "../ui/uiActions";
-import { themeTransitionAnd } from "../ui/themeTransition";
+import { themeTransition, themeTransitionAnd } from "../ui/themeTransition";
 
 interface ScoreProps {
     label?: string,
@@ -90,6 +90,7 @@ const GameOverDisplay = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    ${themeTransition};
 
     animation: ${fadeIn} .6s;
 
