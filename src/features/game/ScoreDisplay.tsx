@@ -89,11 +89,20 @@ const GameOverDisplay = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 
     animation: ${fadeIn} .6s;
 
     & * {
         margin: 0;
+    }
+
+    & h2 {
+        font-size: 1em;
+
+        @media screen and (min-width: 768px) {
+            font-size: 1.5em;
+        }
     }
 `
 
