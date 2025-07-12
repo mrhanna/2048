@@ -10,6 +10,8 @@ import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
 import config from "./app/config";
 import { themeTransition } from "./features/ui/themeTransition";
+import { SiGithub, SiReact, SiTypescript } from "react-icons/si";
+import { HiHeart } from "react-icons/hi2";
 
 const RootWrapper = styled.main`
     font-size: 18pt;
@@ -62,6 +64,16 @@ const Heading = styled.h1`
     }
 `
 
+const Footer = styled.footer`
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    padding: 10px;
+    color: ${({ theme }) => theme.colors.primary};
+    font-family: 'Roboto Mono', monospace;
+`
+
 function App() {
     const [state, dispatch] = useReducer(rootReducer, null, initializeState)
     usePersistence('2048state', state, 300);
@@ -86,6 +98,7 @@ function App() {
                             <MenuBar />
                         </Container>
                     </Main>
+                    <Footer>Made with <HiHeart style={{ color: 'red' }} /> in <SiReact style={{ color: '#61dbfb' }} /> React and <SiTypescript style={{ color: '#3178c6' }} /> TypeScript by <img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna. <a href="https://github.com/mrhanna/2048" target="_blank">Check it out on <SiGithub style={{ color: 'black' }} />GitHub</a></Footer>
                 </RootWrapper>
             </ThemeProvider>
         </AppContext.Provider>
