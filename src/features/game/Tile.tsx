@@ -73,10 +73,6 @@ const TileWrapper = styled.div<{ $exiting?: boolean }>`
     &.fade-in {
         animation: ${fadeIn} 0.3s ease;
     }
-
-    &.merged {
-        animation: ${mergeGrow} 0.3s;
-    }
 `;
 
 export const TileView = styled.div<{ exponent: number }>`
@@ -107,6 +103,10 @@ export const TileView = styled.div<{ exponent: number }>`
         background-color: ${tileColors[Math.min(exponent - 1, tileColors.length - 1)].bg};
         color: ${tileColors[Math.min(exponent - 1, tileColors.length - 1)].fg};
     `}
+
+    &.merged {
+        animation: ${mergeGrow} 0.3s;
+    }
 `;
 
 export default function Tile(props: TileProps) {
