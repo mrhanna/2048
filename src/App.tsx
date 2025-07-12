@@ -74,6 +74,10 @@ const Footer = styled.footer`
     font-family: 'Roboto Mono', monospace;
 `
 
+const BadgeLabel = styled.div`
+    display: inline-block;
+`
+
 function App() {
     const [state, dispatch] = useReducer(rootReducer, null, initializeState)
     usePersistence('2048state', state, 300);
@@ -98,7 +102,10 @@ function App() {
                             <MenuBar />
                         </Container>
                     </Main>
-                    <Footer>Made with <HiHeart style={{ color: 'red' }} /> in <SiReact style={{ color: '#61dbfb' }} /> React and <SiTypescript style={{ color: '#3178c6' }} /> TypeScript by <img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna. <a href="https://github.com/mrhanna/2048" target="_blank">Check it out on <SiGithub style={{ color: 'black' }} />GitHub</a></Footer>
+                    <Footer>
+                        Made with <HiHeart style={{ color: 'red' }} /> in <BadgeLabel><SiReact style={{ color: '#61dbfb' }} /> React</BadgeLabel> and <BadgeLabel><SiTypescript style={{ color: '#3178c6' }} /> TypeScript</BadgeLabel> by <BadgeLabel><img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna.</BadgeLabel> <a href="https://github.com/mrhanna/2048" target="_blank" style={{ textDecoration: 'none' }}>Check it out on <BadgeLabel><SiGithub style={{ color: 'black' }} /> GitHub</BadgeLabel>
+                        </a>
+                    </Footer>
                 </RootWrapper>
             </ThemeProvider>
         </AppContext.Provider>
