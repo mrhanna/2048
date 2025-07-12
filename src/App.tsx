@@ -103,7 +103,7 @@ function App() {
                         </Container>
                     </Main>
                     <Footer>
-                        Made with <HiHeart style={{ color: 'red' }} /> in <BadgeLabel><SiReact style={{ color: '#61dbfb' }} /> React</BadgeLabel> and <BadgeLabel><SiTypescript style={{ color: '#3178c6' }} /> TypeScript</BadgeLabel> by <BadgeLabel><img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna.</BadgeLabel> <a href="https://github.com/mrhanna/2048" target="_blank" style={{ textDecoration: 'none' }}>Check it out on <BadgeLabel><SiGithub style={{ color: 'black' }} /> GitHub</BadgeLabel>
+                        Made with <HiHeart style={{ color: 'red' }} /> in <BadgeLabel><SiReact style={{ color: '#61dbfb' }} /> React</BadgeLabel> and <BadgeLabel><SiTypescript style={{ color: '#3178c6' }} /> TypeScript</BadgeLabel> by <BadgeLabel><img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna.</BadgeLabel> <a href="https://github.com/mrhanna/2048" target="_blank" style={{ textDecoration: 'none' }}>Check it out on <BadgeLabel><SiGithub style={{ color: state.ui.theme.colors.base }} /> GitHub</BadgeLabel>
                         </a>
                     </Footer>
                 </RootWrapper>
