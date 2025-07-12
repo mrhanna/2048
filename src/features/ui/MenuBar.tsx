@@ -11,11 +11,9 @@ const MenuBarWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
 
-    padding: 10px 0;
     gap: 10px;
 
     @media screen and (min-width: 768px) {
-        padding: 1em 0;
         justify-content: center;
     }
 `

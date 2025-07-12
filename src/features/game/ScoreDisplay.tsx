@@ -31,6 +31,7 @@ const scoreViewWrapperStyle = css<{ $variant: Variant }>`
 
     @media screen and (min-width: 768px) {
         font-size: 18pt;
+        height: 72px;
         flex-direction: column;
     }
 `
@@ -54,17 +55,16 @@ const ScoreLabel = styled.div`
     font-weight: normal;
 `
 
-const ScoreDisplayWrapper = styled.section`
+const ScoreDisplayWrapper = styled.div`
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: stretch;
 
     gap: 10px;
-    padding: 10px 0;
 
     @media screen and (min-width: 768px) {
         justify-content: center;
-        padding: 1em 0;
     }
 `
 

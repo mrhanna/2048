@@ -11,23 +11,56 @@ import usePersistence from "./app/usePersistence";
 import config from "./app/config";
 import { themeTransition } from "./features/ui/themeTransition";
 
-const RootWrapper = styled.div`
+const RootWrapper = styled.main`
     font-size: 18pt;
     background: ${({ theme }) => theme.colors.bg};
     color: ${({ theme }) => theme.colors.base};
     width: 100%;
     min-height: 100vh;
     min-height: 100svh;
-    padding: 0 10px;
+    padding: 10px;
     ${themeTransition}
+
+    @media screen and (min-width: 768px) {
+        padding: 1em;
+    }
 `
 
-const AppWrapper = styled.main`
+const Main = styled.main`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 10px;
+
+    @media screen and (min-width: 768px) {
+        gap: 1em;
+    }
+`
+
+const Container = styled.section`
     width: 100%;
     max-width: 60vh;
-    margin: 0 auto;
-    text-align: center;
-`;
+`
+
+const Heading = styled.h1`
+    color: ${({ theme }) => theme.colors.primary};
+    margin: 0;
+
+    font-size: 1.5em;
+
+    @media screen and (min-width: 768px) {
+        font-size: 72px;
+        line-height: 72px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+`
 
 function App() {
     const [state, dispatch] = useReducer(rootReducer, null, initializeState)
@@ -40,12 +73,19 @@ function App() {
             <ThemeProvider theme={state.ui.theme ?? config.themes.default}>
                 <RootWrapper>
                     <Modal intent={state.ui.modal} />
-                    <AppWrapper>
-                        <ScoreDisplay />
-                        <Grid grid={state.game.grid} />
-                        <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
-                        <MenuBar />
-                    </AppWrapper>
+                    <Main>
+                        <Heading>2048</Heading>
+                        <Container>
+                            <ScoreDisplay />
+                        </Container>
+                        <Container>
+                            <Grid grid={state.game.grid} />
+                            <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
+                        </Container>
+                        <Container>
+                            <MenuBar />
+                        </Container>
+                    </Main>
                 </RootWrapper>
             </ThemeProvider>
         </AppContext.Provider>
