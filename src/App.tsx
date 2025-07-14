@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
-import { useReducer, useState } from "react";
+import { useLayoutEffect, useReducer, useState } from "react";
 import ScoreDisplay from "./features/game/ScoreDisplay";
 import Grid from "./features/game/Grid";
 import MenuBar from "./features/ui/MenuBar";
@@ -84,13 +84,17 @@ function App() {
 
     const [isLandscape, setLandscape] = useState(false);
 
-    useMediaQuery(
+    const isInitialLandscape = useMediaQuery(
         {
             maxHeight: 600,
         },
         undefined,
         setLandscape,
     );
+
+    useLayoutEffect(() => {
+        setLandscape(isInitialLandscape);
+    }, [])
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
