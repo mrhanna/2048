@@ -1,0 +1,1 @@
+const CACHE_NAME = `my-app-cache-${APP_VERSION}`;
