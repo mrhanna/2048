@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import ScoreDisplay from "./features/game/ScoreDisplay";
 import Grid from "./features/game/Grid";
 import MenuBar from "./features/ui/MenuBar";
@@ -11,6 +11,9 @@ import usePersistence from "./app/usePersistence";
 import config from "./app/config";
 import { themeTransition } from "./features/ui/themeTransition";
 import AboutText from "./features/ui/AboutText";
+import { useMediaQuery } from "react-responsive";
+import LandscapeWarning from "./features/ui/LandscapeWarning";
+import { isMobile } from "react-device-detect";
 
 const RootWrapper = styled.main`
     font-size: 18pt;
@@ -79,27 +82,43 @@ function App() {
 
     const theme = state.ui.theme ?? config.themes.default;
 
+    const [isLandscape, setLandscape] = useState(false);
+
+    useMediaQuery(
+        {
+            maxHeight: 600,
+        },
+        undefined,
+        setLandscape,
+    );
+
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             <ThemeProvider theme={theme}>
                 <RootWrapper>
-                    <Modal intent={state.ui.modal} />
-                    <Main>
-                        <Heading>2048</Heading>
-                        <Container>
-                            <ScoreDisplay />
-                        </Container>
-                        <Container>
-                            <Grid grid={state.game.grid} />
-                            <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
-                        </Container>
-                        <Container>
-                            <MenuBar />
-                        </Container>
-                    </Main>
-                    <Footer>
-                        <AboutText theme={theme} />
-                    </Footer>
+                    {isLandscape && isMobile ?
+                        <LandscapeWarning />
+                        :
+                        <>
+                            <Modal intent={state.ui.modal} />
+                            <Main>
+                                <Heading>2048</Heading>
+                                <Container>
+                                    <ScoreDisplay />
+                                </Container>
+                                <Container>
+                                    <Grid grid={state.game.grid} />
+                                    <div className="sr-only" aria-live="polite">{state.game.verbose}</div>
+                                </Container>
+                                <Container>
+                                    <MenuBar />
+                                </Container>
+                            </Main>
+                            <Footer>
+                                <AboutText theme={theme} />
+                            </Footer>
+                        </>
+                    }
                 </RootWrapper>
             </ThemeProvider>
         </AppContext.Provider>
