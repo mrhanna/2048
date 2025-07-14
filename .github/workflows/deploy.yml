@@ -24,12 +24,13 @@ jobs:
       - name: 🔨 Build project
         run: npm run build
 
-      - name: 🚀 Deploy via SFTP
+      - name: 🚀 Deploy via SSH
         uses: SamKirkland/web-deploy@v1
         with:
           target-server: ${{ secrets.SSH_HOST }}
           remote-user: ${{ secrets.SSH_USER }}
           private-ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-port: ${{ secrets.SSH_PORT }}
           destination-path: ${{ secrets.DESTINATION }}
           source-path: dist/
           delete-target: true
