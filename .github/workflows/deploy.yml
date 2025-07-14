@@ -33,4 +33,3 @@ jobs:
           ssh-port: ${{ secrets.SSH_PORT }}
           destination-path: ${{ secrets.DESTINATION }}
           source-path: dist/
-          delete-target: true
