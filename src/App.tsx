@@ -10,8 +10,7 @@ import useYouWin from "./features/ui/hooks/useYouWin";
 import usePersistence from "./app/usePersistence";
 import config from "./app/config";
 import { themeTransition } from "./features/ui/themeTransition";
-import { SiGithub, SiReact, SiTypescript } from "react-icons/si";
-import { HiHeart } from "react-icons/hi2";
+import AboutText from "./features/ui/AboutText";
 
 const RootWrapper = styled.main`
     font-size: 18pt;
@@ -71,22 +70,18 @@ const Footer = styled.footer`
     font-size: 14px;
     padding: 10px;
     color: ${({ theme }) => theme.colors.primary};
-    font-family: 'Roboto Mono', monospace;
-`
-
-const BadgeLabel = styled.div`
-    display: inline-block;
 `
 
 function App() {
     const [state, dispatch] = useReducer(rootReducer, null, initializeState)
     usePersistence('2048state', state, 300);
-
     useYouWin(state.game, dispatch);
+
+    const theme = state.ui.theme ?? config.themes.default;
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
-            <ThemeProvider theme={state.ui.theme ?? config.themes.default}>
+            <ThemeProvider theme={theme}>
                 <RootWrapper>
                     <Modal intent={state.ui.modal} />
                     <Main>
@@ -103,8 +98,7 @@ function App() {
                         </Container>
                     </Main>
                     <Footer>
-                        Made with <HiHeart style={{ color: 'red' }} /> in <BadgeLabel><SiReact style={{ color: '#61dbfb' }} /> React</BadgeLabel> and <BadgeLabel><SiTypescript style={{ color: '#3178c6' }} /> TypeScript</BadgeLabel> by <BadgeLabel><img src="https://mrhanna.dev/images/logo.svg" style={{ height: '1em', marginInline: '2px' }} /> Michael Hanna.</BadgeLabel> <a href="https://github.com/mrhanna/2048" target="_blank" style={{ textDecoration: 'none' }}>Check it out on <BadgeLabel><SiGithub style={{ color: state.ui.theme.colors.base }} /> GitHub</BadgeLabel>
-                        </a>
+                        <AboutText theme={theme} />
                     </Footer>
                 </RootWrapper>
             </ThemeProvider>
