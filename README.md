@@ -56,6 +56,15 @@ In 2014, I was obsessed with Gabriele Cirulli's original game like everyone else
 - **Configuration** puts theme colors, min/max grid sizes, and some other styling options in config.ts. You can play mega grid sizes by changing one line of configuration! (Although IMO, 6x6 is already too big to be fun.)
 - **Responsive** design is mobile-first, with specific handling for landscape constraints.
 - **CI/CD:** Deployed via GitHub Actions through SSH using [SamKirkland/web-deploy](https://github.com/SamKirkland/web-deploy). Pushes to the release branch trigger a remote build/deploy script that places a static bundle onto my portfolio shared hosting account.
+
+---
+
+<p align="center">
+  <img src="/.github/assets/megascreenshot.jpg" alt="20 by 20 grid screenshot">
+  <br>
+  Something silly
+</p>
+
 ---
 
 ## 🔧 Development
