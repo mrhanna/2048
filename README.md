@@ -1,6 +1,6 @@
 # mrhanna/2048
 
-A clean, responsive re-creation of the classic [2048 puzzle game](https://en.wikipedia.org/wiki/2048_(video_game)) written with React+TypeScript+Vite. Grid sizes are user configurable from 3x3 to 6x6 (and developer-configurable to any size in config.ts!)
+A clean, responsive, PWA re-creation of the classic [2048 puzzle game](https://en.wikipedia.org/wiki/2048_(video_game)) written with React+TypeScript+Vite. Grid sizes are user configurable from 3x3 to 6x6 (and developer-configurable to any size in config.ts!)
 
 [<img alt="Deployed with web deploy" src="https://img.shields.io/badge/Deployed With-web deploy-%3CCOLOR%3E?style=for-the-badge&color=0077b6">](https://github.com/SamKirkland/web-deploy)
 
@@ -27,6 +27,7 @@ In 2014, I was obsessed with Gabriele Cirulli's original game like everyone else
 - 💾 **Persistent State** — Game state and high scores for each grid size persist via `localStorage`  
 - ♿ **Accessibility-Aware** — ARIA roles, keyboard support, focus management, 'aria-live' game announcments  
 - 🔒 **CI over SSH** — GitHub Actions deployment to remote server via SSH
+- 📲 **Installable PWA**
 
 ---
 
