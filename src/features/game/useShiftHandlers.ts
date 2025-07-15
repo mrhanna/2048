@@ -45,9 +45,13 @@ export default function useShiftHandlers(grid: GridState) {
     useEffect(() => {
         const keymap = {
             ArrowUp: 'up',
+            KeyW: 'up',
             ArrowDown: 'down',
+            KeyS: 'down',
             ArrowLeft: 'left',
+            KeyA: 'left',
             ArrowRight: 'right',
+            KeyD: 'right',
         };
 
         const handleKeyPress = (event: KeyboardEvent) => {
